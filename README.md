@@ -1,8 +1,9 @@
 gwen-nolegacy-opentk-renderer-netstandard2.0
 ============================================
 
-netstandard 2.0 and netcoreapp3.1 conversion
-Gwen.Renderer.OpenTK is update to OpenTK 4.0.0-pre9.1
+Gwen itself converted to netstandard 2.0
+
+Gwen.Renderer.OpenTK is updated to OpenTK 4.0.0-pre9.1 and converted to netcoreapp3.1
 
 Adapted Gwen OpenTK Renderer to not use legacy OpenGL: Uses VBOs and shaders instead of client side vertex arrays and fixed function shading pipeline. Draws triangles instead of quads.
 
