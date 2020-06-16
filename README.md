@@ -1,8 +1,11 @@
-gwen-nolegacy-opentk-renderer
-=============================
-Fork of https://code.google.com/p/gwen-dotnet/
+gwen-nolegacy-opentk-renderer-netstandart2.0
+============================================
+
+Netstandart 2.0 and netcoreapp3.1 conversion
+Gwen.Renderer.OpenTK is update to OpenTK 4.0.0-pre9.1
 
 Adapted Gwen OpenTK Renderer to not use legacy OpenGL: Uses VBOs and shaders instead of client side vertex arrays and fixed function shading pipeline. Draws triangles instead of quads.
 
-Original code is C++ written by Garry Newman.
-https://github.com/garrynewman/GWEN
+Fork of HappyEmu's https://github.com/HappyEmu/gwen-nolegacy-opentk-renderer
+that is a fork of https://code.google.com/p/gwen-dotnet/
+Original code is C++ written by Garry Newman: https://github.com/garrynewman/GWEN
