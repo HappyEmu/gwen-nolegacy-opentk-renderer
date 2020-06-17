@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Gwen.Anim;
+﻿using Gwen.Anim;
 using Gwen.DragDrop;
 using Gwen.Input;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace Gwen.Control
 {
@@ -28,16 +28,20 @@ namespace Gwen.Control
         /// </summary>
         public float Scale
         {
-            get { return m_Scale; }
+            get => m_Scale;
             set
             {
                 if (m_Scale == value)
+                {
                     return;
+                }
 
                 m_Scale = value;
 
                 if (Skin != null && Skin.Renderer != null)
+                {
                     Skin.Renderer.Scale = m_Scale;
+                }
 
                 OnScaleChanged();
                 Redraw();
@@ -47,14 +51,14 @@ namespace Gwen.Control
         /// <summary>
         /// Background color.
         /// </summary>
-        public Color BackgroundColor { get { return m_BackgroundColor; } set { m_BackgroundColor = value; } }
+        public Color BackgroundColor { get => m_BackgroundColor; set => m_BackgroundColor = value; }
 
         /// <summary>
         /// In most situations you will be rendering the canvas every frame. 
         /// But in some situations you will only want to render when there have been changes. 
         /// You can do this by checking NeedsRedraw.
         /// </summary>
-        public bool NeedsRedraw { get { return m_NeedsRedraw; } set { m_NeedsRedraw = value; } }
+        public bool NeedsRedraw { get => m_NeedsRedraw; set => m_NeedsRedraw = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Canvas"/> class.
@@ -85,7 +89,7 @@ namespace Gwen.Control
             NeedsRedraw = true;
             base.Redraw();
         }
-        
+
         // Children call parent.GetCanvas() until they get to 
         // this top level function.
         public override Canvas GetCanvas()
@@ -162,14 +166,16 @@ namespace Gwen.Control
         private void DoThink()
         {
             if (IsHidden)
+            {
                 return;
+            }
 
             Animation.GlobalThink();
 
             // Reset tabbing
             NextTab = null;
             FirstTab = null;
-            
+
             ProcessDelayedDeletes();
 
             // Check has focus etc..
@@ -177,7 +183,9 @@ namespace Gwen.Control
 
             // If we didn't have a next tab, cycle to the start.
             if (NextTab == null)
+            {
                 NextTab = FirstTab;
+            }
 
             InputHandler.OnCanvasThink(this);
         }
@@ -195,7 +203,9 @@ namespace Gwen.Control
             }
 #if DEBUG
             else
+            {
                 throw new InvalidOperationException("Control deleted twice");
+            }
 #endif
         }
 
@@ -217,21 +227,34 @@ namespace Gwen.Control
         public bool Input_MouseMoved(int x, int y, int dx, int dy)
         {
             if (IsHidden)
+            {
                 return false;
+            }
 
             // Todo: Handle scaling here..
             //float fScale = 1.0f / Scale();
 
             InputHandler.OnMouseMoved(this, x, y, dx, dy);
 
-            if (InputHandler.HoveredControl == null) return false;
-            if (InputHandler.HoveredControl == this) return false;
-            if (InputHandler.HoveredControl.GetCanvas() != this) return false;
+            if (InputHandler.HoveredControl == null)
+            {
+                return false;
+            }
+
+            if (InputHandler.HoveredControl == this)
+            {
+                return false;
+            }
+
+            if (InputHandler.HoveredControl.GetCanvas() != this)
+            {
+                return false;
+            }
 
             InputHandler.HoveredControl.InputMouseMoved(x, y, dx, dy);
             InputHandler.HoveredControl.UpdateCursor();
-
-            DragAndDrop.OnMouseMoved(InputHandler.HoveredControl, x, y);
+            
+            DragAndDrop.OnMouseMoved(InputHandler.HoveredControl, x, y, Skin.Renderer);
             return true;
         }
 
@@ -241,7 +264,10 @@ namespace Gwen.Control
         /// <returns>True if handled.</returns>
         public bool Input_MouseButton(int button, bool down)
         {
-            if (IsHidden) return false;
+            if (IsHidden)
+            {
+                return false;
+            }
 
             return InputHandler.OnMouseClicked(this, button, down);
         }
@@ -252,9 +278,20 @@ namespace Gwen.Control
         /// <returns>True if handled.</returns>
         public bool Input_Key(Key key, bool down)
         {
-            if (IsHidden) return false;
-            if (key <= Key.Invalid) return false;
-            if (key >= Key.Count) return false;
+            if (IsHidden)
+            {
+                return false;
+            }
+
+            if (key <= Key.Invalid)
+            {
+                return false;
+            }
+
+            if (key >= Key.Count)
+            {
+                return false;
+            }
 
             return InputHandler.OnKeyEvent(this, key, down);
         }
@@ -265,18 +302,42 @@ namespace Gwen.Control
         /// <returns>True if handled.</returns>
         public bool Input_Character(char chr)
         {
-            if (IsHidden) return false;
-            if (char.IsControl(chr)) return false;
+            if (IsHidden)
+            {
+                return false;
+            }
+
+            if (char.IsControl(chr))
+            {
+                return false;
+            }
 
             //Handle Accelerators
             if (InputHandler.HandleAccelerator(this, chr))
+            {
                 return true;
+            }
 
             //Handle characters
-            if (InputHandler.KeyboardFocus == null) return false;
-            if (InputHandler.KeyboardFocus.GetCanvas() != this) return false;
-            if (!InputHandler.KeyboardFocus.IsVisible) return false;
-            if (InputHandler.IsControlDown) return false;
+            if (InputHandler.KeyboardFocus == null)
+            {
+                return false;
+            }
+
+            if (InputHandler.KeyboardFocus.GetCanvas() != this)
+            {
+                return false;
+            }
+
+            if (!InputHandler.KeyboardFocus.IsVisible)
+            {
+                return false;
+            }
+
+            if (InputHandler.IsControlDown)
+            {
+                return false;
+            }
 
             return InputHandler.KeyboardFocus.InputChar(chr);
         }
@@ -287,10 +348,25 @@ namespace Gwen.Control
         /// <returns>True if handled.</returns>
         public bool Input_MouseWheel(int val)
         {
-            if (IsHidden) return false;
-            if (InputHandler.HoveredControl == null) return false;
-            if (InputHandler.HoveredControl == this) return false;
-            if (InputHandler.HoveredControl.GetCanvas() != this) return false;
+            if (IsHidden)
+            {
+                return false;
+            }
+
+            if (InputHandler.HoveredControl == null)
+            {
+                return false;
+            }
+
+            if (InputHandler.HoveredControl == this)
+            {
+                return false;
+            }
+
+            if (InputHandler.HoveredControl.GetCanvas() != this)
+            {
+                return false;
+            }
 
             return InputHandler.HoveredControl.InputMouseWheeled(val);
         }

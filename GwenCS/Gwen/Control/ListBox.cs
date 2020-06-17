@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Gwen.Control.Layout;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Gwen.Control.Layout;
 
 namespace Gwen.Control
 {
@@ -25,36 +24,38 @@ namespace Gwen.Control
         /// </summary>
         public bool AllowMultiSelect
         {
-            get { return m_MultiSelect; }
+            get => m_MultiSelect;
             set
             {
                 m_MultiSelect = value;
                 if (value)
+                {
                     IsToggle = true;
+                }
             }
         }
 
         /// <summary>
         /// Determines whether rows can be unselected by clicking on them again.
         /// </summary>
-        public bool IsToggle { get { return m_IsToggle; } set { m_IsToggle = value; } }
+        public bool IsToggle { get => m_IsToggle; set => m_IsToggle = value; }
 
         /// <summary>
         /// Number of rows in the list box.
         /// </summary>
-        public int RowCount { get { return m_Table.RowCount; } }
+        public int RowCount => m_Table.RowCount;
 
         /// <summary>
         /// Returns specific row of the ListBox.
         /// </summary>
         /// <param name="index">Row index.</param>
         /// <returns>Row at the specified index.</returns>
-        public ListBoxRow this[int index] { get { return m_Table[index] as ListBoxRow; } }
+        public ListBoxRow this[int index] => m_Table[index] as ListBoxRow;
 
         /// <summary>
         /// List of selected rows.
         /// </summary>
-        public IEnumerable<TableRow> SelectedRows { get { return m_SelectedRows; } }
+        public IEnumerable<TableRow> SelectedRows => m_SelectedRows;
 
         /// <summary>
         /// First selected row (and only if list is not multiselectable).
@@ -64,7 +65,10 @@ namespace Gwen.Control
             get
             {
                 if (m_SelectedRows.Count == 0)
+                {
                     return null;
+                }
+
                 return m_SelectedRows[0];
             }
             set
@@ -92,19 +96,19 @@ namespace Gwen.Control
             {
                 var selected = SelectedRow;
                 if (selected == null)
+                {
                     return -1;
+                }
+
                 return m_Table.GetRowIndex(selected);
             }
-            set
-            {
-                SelectRow(value);
-            }
+            set => SelectRow(value);
         }
 
         /// <summary>
         /// Column count of table rows.
         /// </summary>
-        public int ColumnCount { get { return m_Table.ColumnCount; } set { m_Table.ColumnCount = value; Invalidate(); } }
+        public int ColumnCount { get => m_Table.ColumnCount; set { m_Table.ColumnCount = value; Invalidate(); } }
 
         /// <summary>
         /// Invoked when a row has been selected.
@@ -125,14 +129,16 @@ namespace Gwen.Control
         {
             m_SelectedRows = new List<ListBoxRow>();
 
-			MouseInputEnabled = true;
+            MouseInputEnabled = true;
             EnableScroll(false, true);
             AutoHideBars = true;
             Margin = Margin.One;
 
-            m_Table = new Table(this);
-            m_Table.Dock = Pos.Fill;
-            m_Table.ColumnCount = 1;
+            m_Table = new Table(this)
+            {
+                Dock = Pos.Fill,
+                ColumnCount = 1
+            };
             m_Table.BoundsChanged += TableResized;
 
             m_MultiSelect = false;
@@ -147,7 +153,9 @@ namespace Gwen.Control
         public void SelectRow(int index, bool clearOthers = false)
         {
             if (index < 0 || index >= m_Table.RowCount)
+            {
                 return;
+            }
 
             SelectRow(m_Table.Children[index], clearOthers);
         }
@@ -189,17 +197,23 @@ namespace Gwen.Control
         public void SelectRow(Base control, bool clearOthers = false)
         {
             if (!AllowMultiSelect || clearOthers)
+            {
                 UnselectAll();
+            }
 
             ListBoxRow row = control as ListBoxRow;
             if (row == null)
+            {
                 return;
+            }
 
             // TODO: make sure this is one of our rows!
             row.IsSelected = true;
             m_SelectedRows.Add(row);
             if (RowSelected != null)
-				RowSelected.Invoke(this, new ItemSelectedEventArgs(row));
+            {
+                RowSelected.Invoke(this, new ItemSelectedEventArgs(row));
+            }
         }
 
         /// <summary>
@@ -293,7 +307,9 @@ namespace Gwen.Control
             {
                 row.IsSelected = false;
                 if (RowUnselected != null)
-					RowUnselected.Invoke(this, new ItemSelectedEventArgs(row));
+                {
+                    RowUnselected.Invoke(this, new ItemSelectedEventArgs(row));
+                }
             }
             m_SelectedRows.Clear();
         }
@@ -308,7 +324,9 @@ namespace Gwen.Control
             m_SelectedRows.Remove(row);
 
             if (RowUnselected != null)
+            {
                 RowUnselected.Invoke(this, new ItemSelectedEventArgs(row));
+            }
         }
 
         /// <summary>
@@ -319,14 +337,18 @@ namespace Gwen.Control
         {
             // [omeg] changed default behavior
             bool clear = false;// !InputHandler.InputHandler.IsShiftDown;
-			ListBoxRow row = args.SelectedItem as ListBoxRow;
+            ListBoxRow row = args.SelectedItem as ListBoxRow;
             if (row == null)
+            {
                 return;
+            }
 
             if (row.IsSelected)
             {
                 if (IsToggle)
+                {
                     UnselectRow(row);
+                }
             }
             else
             {

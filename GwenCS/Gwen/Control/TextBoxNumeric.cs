@@ -18,16 +18,18 @@ namespace Gwen.Control
         /// <param name="parent">Parent control.</param>
         public TextBoxNumeric(Base parent) : base(parent)
         {
-			AutoSizeToContents = false;
+            AutoSizeToContents = false;
             SetText("0", false);
         }
 
         protected virtual bool IsTextAllowed(string str)
         {
             if (str == "" || str == "-")
+            {
                 return true; // annoying if single - is not allowed
-            float d;
-            return float.TryParse(str, out d);
+            }
+
+            return float.TryParse(str, out float d);
         }
 
         /// <summary>
@@ -47,14 +49,14 @@ namespace Gwen.Control
         /// </summary>
         public virtual float Value
         {
-            get { return m_Value; }
+            get => m_Value;
             set
             {
                 m_Value = value;
                 Text = value.ToString();
             }
         }
-        
+
         // text -> value
         /// <summary>
         /// Handler for text changed event.
@@ -67,7 +69,10 @@ namespace Gwen.Control
                 //SetText("0");
             }
             else
+            {
                 m_Value = float.Parse(Text);
+            }
+
             base.OnTextChanged();
         }
 
@@ -79,7 +84,9 @@ namespace Gwen.Control
         public override void SetText(string str, bool doEvents = true)
         {
             if (IsTextAllowed(str))
+            {
                 base.SetText(str, doEvents);
+            }
         }
     }
 }

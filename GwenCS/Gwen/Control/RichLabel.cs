@@ -56,13 +56,17 @@ namespace Gwen.Control
         public void AddText(string text, Color color, Font font = null)
         {
             if (String.IsNullOrEmpty(text))
+            {
                 return;
+            }
 
             var lines = text.Split(newline, StringSplitOptions.None);
             for (int i = 0; i < lines.Length; i++)
             {
                 if (i > 0)
+                {
                     AddLineBreak();
+                }
 
                 TextBlock block = new TextBlock { Type = BlockType.Text, Text = lines[i], Color = color, Font = font };
 
@@ -90,7 +94,9 @@ namespace Gwen.Control
         {
             var spaced = Util.SplitAndKeep(text, " ");
             if (spaced.Length == 0)
+            {
                 return;
+            }
 
             int spaceLeft = Width - x;
             string leftOver;
@@ -109,7 +115,9 @@ namespace Gwen.Control
             {
                 CreateLabel(spaced[0], block, ref x, ref y, ref lineHeight, true);
                 if (spaced[0].Length >= text.Length)
+                {
                     return;
+                }
 
                 leftOver = text.Substring(spaced[0].Length + 1);
                 SplitLabel(leftOver, font, block, ref x, ref y, ref lineHeight);
@@ -144,7 +152,9 @@ namespace Gwen.Control
             // Use default font or is one set?
             Font font = Skin.DefaultFont;
             if (block.Font != null)
+            {
                 font = block.Font;
+            }
 
             // This string is too long for us, split it up.
             Point p = Skin.Renderer.MeasureText(font, text);
@@ -237,7 +247,9 @@ namespace Gwen.Control
         {
             base.Layout(skin);
             if (m_NeedsRebuild)
+            {
                 Rebuild();
+            }
 
             // align bottoms. this is still not ideal, need to take font metrics into account.
             Base prev = null;

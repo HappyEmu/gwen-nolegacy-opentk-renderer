@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Gwen.ControlInternal;
+using System;
 using System.Drawing;
 using System.Linq;
-using Gwen.ControlInternal;
 
 namespace Gwen.Control
 {
@@ -13,19 +13,19 @@ namespace Gwen.Control
         private bool m_DisableIconMargin;
         private bool m_DeleteOnClose;
 
-        internal override bool IsMenuComponent { get { return true; } }
-        
-        public bool IconMarginDisabled { get { return m_DisableIconMargin; } set { m_DisableIconMargin = value; } }
-        
+        internal override bool IsMenuComponent => true;
+
+        public bool IconMarginDisabled { get => m_DisableIconMargin; set => m_DisableIconMargin = value; }
+
         /// <summary>
         /// Determines whether the menu should be disposed on close.
         /// </summary>
-        public bool DeleteOnClose { get { return m_DeleteOnClose; } set { m_DeleteOnClose = value; } }
+        public bool DeleteOnClose { get => m_DeleteOnClose; set => m_DeleteOnClose = value; }
 
         /// <summary>
         /// Determines whether the menu should open on mouse hover.
         /// </summary>
-        protected virtual bool ShouldHoverOpenMenu { get { return true; } }
+        protected virtual bool ShouldHoverOpenMenu => true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
@@ -83,7 +83,9 @@ namespace Gwen.Control
             int childrenHeight = Children.Sum(child => child != null ? child.Height : 0);
 
             if (Y + childrenHeight > GetCanvas().Height)
+            {
                 childrenHeight = GetCanvas().Height - Y;
+            }
 
             SetSize(Width, childrenHeight);
 
@@ -109,8 +111,10 @@ namespace Gwen.Control
         /// <returns>Newly created control.</returns>
         public virtual MenuItem AddItem(string text, string iconName, string accelerator = "")
         {
-            MenuItem item = new MenuItem(this);
-            item.Padding = Padding.Four;
+            MenuItem item = new MenuItem(this)
+            {
+                Padding = Padding.Four
+            };
             item.SetText(text);
             item.SetImage(iconName);
             item.SetAccelerator(accelerator);
@@ -134,7 +138,11 @@ namespace Gwen.Control
 
             // Do this here - after Top Docking these values mean nothing in layout
             int w = item.Width + 10 + 32;
-            if (w < Width) w = Width;
+            if (w < Width)
+            {
+                w = Width;
+            }
+
             SetSize(w, Height);
         }
 
@@ -144,7 +152,7 @@ namespace Gwen.Control
         public virtual void CloseAll()
         {
             //System.Diagnostics.Debug.Print("Menu.CloseAll: {0}", this);
-            Children.ForEach(child => { if (child is MenuItem) (child as MenuItem).CloseMenu(); });
+            Children.ForEach(child => { if (child is MenuItem) { (child as MenuItem).CloseMenu(); } });
         }
 
         /// <summary>
@@ -153,7 +161,7 @@ namespace Gwen.Control
         /// <returns></returns>
         public virtual bool IsMenuOpen()
         {
-            return Children.Any(child => { if (child is MenuItem) return (child as MenuItem).IsMenuOpen; return false; });
+            return Children.Any(child => { if (child is MenuItem) { return (child as MenuItem).IsMenuOpen; } return false; });
         }
 
         /// <summary>
@@ -162,11 +170,21 @@ namespace Gwen.Control
         /// <param name="control">Event source.</param>
 		protected virtual void OnHoverItem(Base control, EventArgs args)
         {
-            if (!ShouldHoverOpenMenu) return;
+            if (!ShouldHoverOpenMenu)
+            {
+                return;
+            }
 
             MenuItem item = control as MenuItem;
-            if (null == item) return;
-            if (item.IsMenuOpen) return;
+            if (null == item)
+            {
+                return;
+            }
+
+            if (item.IsMenuOpen)
+            {
+                return;
+            }
 
             CloseAll();
             item.OpenMenu();
@@ -201,24 +219,29 @@ namespace Gwen.Control
         /// </summary>
         public virtual void AddDivider()
         {
-            MenuDivider divider = new MenuDivider(this);
-            divider.Dock = Pos.Top;
-            divider.Margin = new Margin(IconMarginDisabled ? 0 : 24, 0, 4, 0);
+            MenuDivider divider = new MenuDivider(this)
+            {
+                Dock = Pos.Top,
+                Margin = new Margin(IconMarginDisabled ? 0 : 24, 0, 4, 0)
+            };
         }
 
-		public override bool SizeToChildren(bool width = true, bool height = true)
-		{
-			base.SizeToChildren(width, height);
-			if (width) {
-				int MaxWidth = this.Width;
-				foreach (Base child in Children) {
-					if (child.Width > MaxWidth) {
-						MaxWidth = child.Width;
-					}
-				}
-				this.SetSize(MaxWidth, Height);
-			}
-			return true;
-		}
+        public override bool SizeToChildren(bool width = true, bool height = true)
+        {
+            base.SizeToChildren(width, height);
+            if (width)
+            {
+                int MaxWidth = Width;
+                foreach (Base child in Children)
+                {
+                    if (child.Width > MaxWidth)
+                    {
+                        MaxWidth = child.Width;
+                    }
+                }
+                SetSize(MaxWidth, Height);
+            }
+            return true;
+        }
     }
 }

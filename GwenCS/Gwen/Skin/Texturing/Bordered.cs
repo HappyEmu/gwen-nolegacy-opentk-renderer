@@ -33,14 +33,14 @@ namespace Gwen.Skin.Texturing
             Init(texture, x, y, w, h, inMargin, drawMarginScale);
         }
 
-        void DrawRect(Renderer.Base render, int i, int x, int y, int w, int h)
+        private void DrawRect(Renderer.Base render, int i, int x, int y, int w, int h)
         {
             render.DrawTexturedRect(m_Texture,
                                     new Rectangle(x, y, w, h),
                                     m_Rects[i].uv[0], m_Rects[i].uv[1], m_Rects[i].uv[2], m_Rects[i].uv[3]);
         }
 
-        void SetRect(int num, float x, float y, float w, float h)
+        private void SetRect(int num, float x, float y, float w, float h)
         {
             float texw = m_Texture.Width;
             float texh = m_Texture.Height;
@@ -95,7 +95,9 @@ namespace Gwen.Skin.Texturing
         public void Draw(Renderer.Base render, Rectangle r, Color col)
         {
             if (m_Texture == null)
+            {
                 return;
+            }
 
             render.DrawColor = col;
 

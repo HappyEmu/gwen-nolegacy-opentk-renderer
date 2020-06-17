@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Gwen.Input;
+using System;
 using System.Drawing;
-using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -14,25 +14,19 @@ namespace Gwen.Control
         /// </summary>
         public override int BarSize
         {
-            get { return m_Bar.Height; }
-            set { m_Bar.Height = value; }
+            get => m_Bar.Height;
+            set => m_Bar.Height = value;
         }
 
         /// <summary>
         /// Bar position (in pixels).
         /// </summary>
-        public override int BarPos
-        {
-            get { return m_Bar.Y - Width; }
-        }
+        public override int BarPos => m_Bar.Y - Width;
 
         /// <summary>
         /// Button size (in pixels).
         /// </summary>
-        public override int ButtonSize
-        {
-            get { return Width; }
-        }
+        public override int ButtonSize => Width;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VerticalScrollBar"/> class.
@@ -70,13 +64,18 @@ namespace Gwen.Control
             m_Bar.Padding = new Padding(0, ButtonSize, 0, ButtonSize);
 
             float barHeight = 0.0f;
-            if (m_ContentSize > 0.0f) barHeight = (m_ViewableContentSize/m_ContentSize)*(Height - (ButtonSize*2));
+            if (m_ContentSize > 0.0f)
+            {
+                barHeight = (m_ViewableContentSize / m_ContentSize) * (Height - (ButtonSize * 2));
+            }
 
-            if (barHeight < ButtonSize*0.5f)
-                barHeight = (int) (ButtonSize*0.5f);
+            if (barHeight < ButtonSize * 0.5f)
+            {
+                barHeight = (int)(ButtonSize * 0.5f);
+            }
 
-            m_Bar.Height = (int) (barHeight);
-            m_Bar.IsHidden = Height - (ButtonSize*2) <= barHeight;
+            m_Bar.Height = (int)(barHeight);
+            m_Bar.IsHidden = Height - (ButtonSize * 2) <= barHeight;
 
             //Based on our last scroll amount, produce a position for the bar
             if (!m_Bar.IsHeld)
@@ -85,16 +84,20 @@ namespace Gwen.Control
             }
         }
 
-		public virtual void NudgeUp(Base control, EventArgs args)
+        public virtual void NudgeUp(Base control, EventArgs args)
         {
             if (!IsDisabled)
+            {
                 SetScrollAmount(ScrollAmount - NudgeAmount, true);
+            }
         }
 
-		public virtual void NudgeDown(Base control, EventArgs args)
+        public virtual void NudgeDown(Base control, EventArgs args)
         {
             if (!IsDisabled)
+            {
                 SetScrollAmount(ScrollAmount + NudgeAmount, true);
+            }
         }
 
         public override void ScrollToTop()
@@ -112,14 +115,15 @@ namespace Gwen.Control
             get
             {
                 if (m_Depressed)
+                {
                     return m_ViewableContentSize / m_ContentSize;
+                }
                 else
+                {
                     return base.NudgeAmount;
+                }
             }
-            set
-            {
-                base.NudgeAmount = value;
-            }
+            set => base.NudgeAmount = value;
         }
 
         /// <summary>
@@ -130,7 +134,7 @@ namespace Gwen.Control
         /// <param name="down">If set to <c>true</c> mouse button is down.</param>
         protected override void OnMouseClickedLeft(int x, int y, bool down)
         {
-			base.OnMouseClickedLeft(x, y, down);
+            base.OnMouseClickedLeft(x, y, down);
             if (down)
             {
                 m_Depressed = true;
@@ -140,9 +144,13 @@ namespace Gwen.Control
             {
                 Point clickPos = CanvasPosToLocal(new Point(x, y));
                 if (clickPos.Y < m_Bar.Y)
+                {
                     NudgeUp(this, EventArgs.Empty);
+                }
                 else if (clickPos.Y > m_Bar.Y + m_Bar.Height)
+                {
                     NudgeDown(this, EventArgs.Empty);
+                }
 
                 m_Depressed = false;
                 InputHandler.MouseFocus = null;
@@ -165,7 +173,9 @@ namespace Gwen.Control
             value = Util.Clamp(value, 0, 1);
 
             if (!base.SetScrollAmount(value, forceUpdate))
+            {
                 return false;
+            }
 
             if (forceUpdate)
             {
@@ -185,10 +195,12 @@ namespace Gwen.Control
             if (m_Bar.IsHeld)
             {
                 SetScrollAmount(CalculateScrolledAmount(), false);
-				base.OnBarMoved(control, EventArgs.Empty);
+                base.OnBarMoved(control, EventArgs.Empty);
             }
             else
+            {
                 InvalidateParent();
+            }
         }
     }
 }

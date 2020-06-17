@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -25,17 +25,19 @@ namespace Gwen.UnitTest
             m_WindowCount = 1;
         }
 
-		void OpenWindow(Base control, EventArgs args)
+        private void OpenWindow(Base control, EventArgs args)
         {
-            Control.WindowControl window = new Control.WindowControl(GetCanvas());
-            window.Title = String.Format("Window {0}", m_WindowCount);
+            Control.WindowControl window = new Control.WindowControl(GetCanvas())
+            {
+                Title = String.Format("Window {0}", m_WindowCount)
+            };
             window.SetSize(rand.Next(200, 400), rand.Next(200, 400));
             window.SetPosition(rand.Next(700), rand.Next(400));
 
             m_WindowCount++;
         }
 
-		void OpenMsgbox(Base control, EventArgs args)
+        private void OpenMsgbox(Base control, EventArgs args)
         {
             MessageBox window = new MessageBox(GetCanvas(), String.Format("Window {0}   MessageBox window = new MessageBox(GetCanvas(), String.Format(  MessageBox window = new MessageBox(GetCanvas(), String.Format(", m_WindowCount));
             window.SetPosition(rand.Next(700), rand.Next(400));

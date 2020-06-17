@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -10,32 +10,39 @@ namespace Gwen.UnitTest
         {
             /* Normal */
             {
-                Control.ImagePanel img = new Control.ImagePanel(this);
-                img.ImageName = "gwen.png";
+                Control.ImagePanel img = new Control.ImagePanel(this)
+                {
+                    ImageName = "gwen.png"
+                };
                 img.SetPosition(10, 10);
-				img.SetSize(100, 100);
+                img.SetSize(100, 100);
             }
 
             /* Missing */
             {
-                Control.ImagePanel img = new Control.ImagePanel(this);
-                img.ImageName = "missingimage.png";
+                Control.ImagePanel img = new Control.ImagePanel(this)
+                {
+                    ImageName = "missingimage.png"
+                };
                 img.SetPosition(120, 10);
-				img.SetSize(100, 100);
+                img.SetSize(100, 100);
             }
 
-			/* Clicked */
-			{
-				Control.ImagePanel img = new Control.ImagePanel(this);
-				img.ImageName = "gwen.png";
-				img.SetPosition(10, 120);
-				img.SetSize(100, 100);
-				img.Clicked += Image_Clicked;
-			}
+            /* Clicked */
+            {
+                Control.ImagePanel img = new Control.ImagePanel(this)
+                {
+                    ImageName = "gwen.png"
+                };
+                img.SetPosition(10, 120);
+                img.SetSize(100, 100);
+                img.Clicked += Image_Clicked;
+            }
         }
 
-		void Image_Clicked(Base control, EventArgs args) {
-			UnitPrint("Image: Clicked");
-		}
+        private void Image_Clicked(Base control, EventArgs args)
+        {
+            UnitPrint("Image: Clicked");
+        }
     }
 }

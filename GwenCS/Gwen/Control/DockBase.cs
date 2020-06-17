@@ -1,7 +1,7 @@
-﻿using System;
-using System.Drawing;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
 using Gwen.DragDrop;
+using System;
+using System.Drawing;
 
 namespace Gwen.Control
 {
@@ -28,24 +28,24 @@ namespace Gwen.Control
         /// <summary>
         /// Control docked on the left side.
         /// </summary>
-        public DockBase LeftDock { get { return GetChildDock(Pos.Left); } }
+        public DockBase LeftDock => GetChildDock(Pos.Left);
 
         /// <summary>
         /// Control docked on the right side.
         /// </summary>
-        public DockBase RightDock { get { return GetChildDock(Pos.Right); } }
+        public DockBase RightDock => GetChildDock(Pos.Right);
 
         /// <summary>
         /// Control docked on the top side.
         /// </summary>
-        public DockBase TopDock { get { return GetChildDock(Pos.Top); } }
+        public DockBase TopDock => GetChildDock(Pos.Top);
 
         /// <summary>
         /// Control docked on the bottom side.
         /// </summary>
-        public DockBase BottomDock { get { return GetChildDock(Pos.Bottom); } }
+        public DockBase BottomDock => GetChildDock(Pos.Bottom);
 
-        public TabControl TabControl { get { return m_DockedTabControl; } }
+        public TabControl TabControl => m_DockedTabControl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DockBase"/> class.
@@ -88,17 +88,37 @@ namespace Gwen.Control
             Dock = pos;
 
             Pos sizeDir;
-            if (pos == Pos.Right) sizeDir = Pos.Left;
-            else if (pos == Pos.Left) sizeDir = Pos.Right;
-            else if (pos == Pos.Top) sizeDir = Pos.Bottom;
-            else if (pos == Pos.Bottom) sizeDir = Pos.Top;
-            else throw new ArgumentException("Invalid dock", "pos");
+            if (pos == Pos.Right)
+            {
+                sizeDir = Pos.Left;
+            }
+            else if (pos == Pos.Left)
+            {
+                sizeDir = Pos.Right;
+            }
+            else if (pos == Pos.Top)
+            {
+                sizeDir = Pos.Bottom;
+            }
+            else if (pos == Pos.Bottom)
+            {
+                sizeDir = Pos.Top;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dock", "pos");
+            }
 
             if (m_Sizer != null)
+            {
                 m_Sizer.Dispose();
-            m_Sizer = new Resizer(this);
-            m_Sizer.Dock = sizeDir;
-            m_Sizer.ResizeDir = sizeDir;
+            }
+
+            m_Sizer = new Resizer(this)
+            {
+                Dock = sizeDir,
+                ResizeDir = sizeDir
+            };
             m_Sizer.SetSize(2, 2);
         }
 
@@ -160,7 +180,9 @@ namespace Gwen.Control
             }
 
             if (dock != null)
+            {
                 dock.IsHidden = false;
+            }
 
             return dock;
         }
@@ -184,16 +206,29 @@ namespace Gwen.Control
             m_DropFar = (minimum < 0.2f);
 
             if (minimum > 0.3f)
+            {
                 return Pos.Fill;
+            }
 
             if (top == minimum && (null == m_Top || m_Top.IsHidden))
+            {
                 return Pos.Top;
+            }
+
             if (left == minimum && (null == m_Left || m_Left.IsHidden))
+            {
                 return Pos.Left;
+            }
+
             if (right == minimum && (null == m_Right || m_Right.IsHidden))
+            {
                 return Pos.Right;
+            }
+
             if (bottom == minimum && (null == m_Bottom || m_Bottom.IsHidden))
+            {
                 return Pos.Bottom;
+            }
 
             return Pos.Fill;
         }
@@ -202,11 +237,15 @@ namespace Gwen.Control
         {
             // A TAB button dropped 
             if (p.Name == "TabButtonMove")
+            {
                 return true;
+            }
 
             // a TAB window dropped
             if (p.Name == "TabWindowMove")
+            {
                 return true;
+            }
 
             return false;
         }
@@ -218,7 +257,9 @@ namespace Gwen.Control
 
             DockedTabControl addTo = m_DockedTabControl;
             if (dir == Pos.Fill && addTo == null)
+            {
                 return false;
+            }
 
             if (dir != Pos.Fill)
             {
@@ -226,16 +267,22 @@ namespace Gwen.Control
                 addTo = dock.m_DockedTabControl;
 
                 if (!m_DropFar)
+                {
                     dock.BringToFront();
+                }
                 else
+                {
                     dock.SendToBack();
+                }
             }
 
             if (p.Name == "TabButtonMove")
             {
                 TabButton tabButton = DragAndDrop.SourceControl as TabButton;
                 if (null == tabButton)
+                {
                     return false;
+                }
 
                 addTo.AddPage(tabButton);
             }
@@ -244,9 +291,14 @@ namespace Gwen.Control
             {
                 DockedTabControl tabControl = DragAndDrop.SourceControl as DockedTabControl;
                 if (null == tabControl)
+                {
                     return false;
+                }
+
                 if (tabControl == addTo)
+                {
                     return false;
+                }
 
                 tabControl.MoveTabsTo(addTo);
             }
@@ -263,18 +315,36 @@ namespace Gwen.Control
         {
             get
             {
-                if (m_DockedTabControl != null && m_DockedTabControl.TabCount > 0) return false;
+                if (m_DockedTabControl != null && m_DockedTabControl.TabCount > 0)
+                {
+                    return false;
+                }
 
-                if (m_Left != null && !m_Left.IsEmpty) return false;
-                if (m_Right != null && !m_Right.IsEmpty) return false;
-                if (m_Top != null && !m_Top.IsEmpty) return false;
-                if (m_Bottom != null && !m_Bottom.IsEmpty) return false;
+                if (m_Left != null && !m_Left.IsEmpty)
+                {
+                    return false;
+                }
+
+                if (m_Right != null && !m_Right.IsEmpty)
+                {
+                    return false;
+                }
+
+                if (m_Top != null && !m_Top.IsEmpty)
+                {
+                    return false;
+                }
+
+                if (m_Bottom != null && !m_Bottom.IsEmpty)
+                {
+                    return false;
+                }
 
                 return true;
             }
         }
 
-		protected virtual void OnTabRemoved(Base control, EventArgs args)
+        protected virtual void OnTabRemoved(Base control, EventArgs args)
         {
             DoRedundancyCheck();
             DoConsolidateCheck();
@@ -282,19 +352,36 @@ namespace Gwen.Control
 
         protected virtual void DoRedundancyCheck()
         {
-            if (!IsEmpty) return;
+            if (!IsEmpty)
+            {
+                return;
+            }
 
             DockBase pDockParent = Parent as DockBase;
-            if (null == pDockParent) return;
+            if (null == pDockParent)
+            {
+                return;
+            }
 
             pDockParent.OnRedundantChildDock(this);
         }
 
         protected virtual void DoConsolidateCheck()
         {
-            if (IsEmpty) return;
-            if (null == m_DockedTabControl) return;
-            if (m_DockedTabControl.TabCount > 0) return;
+            if (IsEmpty)
+            {
+                return;
+            }
+
+            if (null == m_DockedTabControl)
+            {
+                return;
+            }
+
+            if (m_DockedTabControl.TabCount > 0)
+            {
+                return;
+            }
 
             if (m_Bottom != null && !m_Bottom.IsEmpty)
             {
@@ -421,14 +508,18 @@ namespace Gwen.Control
         protected override void RenderOver(Skin.Base skin)
         {
             if (!m_DrawHover)
+            {
                 return;
+            }
 
             Renderer.Base render = skin.Renderer;
             render.DrawColor = Color.FromArgb(20, 255, 200, 255);
             render.DrawFilledRect(RenderBounds);
 
             if (m_HoverRect.Width == 0)
+            {
                 return;
+            }
 
             render.DrawColor = Color.FromArgb(100, 255, 200, 255);
             render.DrawFilledRect(m_HoverRect);

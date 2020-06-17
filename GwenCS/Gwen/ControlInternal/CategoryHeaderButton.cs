@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -27,9 +26,13 @@ namespace Gwen.ControlInternal
         public override void UpdateColors()
         {
             if (IsDepressed || ToggleState)
+            {
                 TextColor = Skin.Colors.Category.Header_Closed;
+            }
             else
+            {
                 TextColor = Skin.Colors.Category.Header;
+            }
         }
     }
 }

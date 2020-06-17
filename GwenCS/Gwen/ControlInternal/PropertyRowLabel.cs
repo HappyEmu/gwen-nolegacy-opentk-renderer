@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -16,7 +15,7 @@ namespace Gwen.ControlInternal
         /// <param name="parent">Parent control.</param>
         public PropertyRowLabel(PropertyRow parent) : base(parent)
         {
-			AutoSizeToContents = false;
+            AutoSizeToContents = false;
             Alignment = Pos.Left | Pos.CenterV;
             m_PropertyRow = parent;
         }

@@ -25,7 +25,9 @@ namespace Gwen.Renderer
             m_RenderOffset = Point.Empty;
             Scale = 1.0f;
             if (CTT != null)
+            {
                 CTT.Initialize();
+            }
         }
 
         /// <summary>
@@ -35,7 +37,10 @@ namespace Gwen.Renderer
         public virtual void Dispose()
         {
             if (CTT != null)
+            {
                 CTT.ShutDown();
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -67,12 +72,12 @@ namespace Gwen.Renderer
         /// <summary>
         /// Rendering offset. No need to touch it usually.
         /// </summary>
-        public Point RenderOffset { get { return m_RenderOffset; } set { m_RenderOffset = value; } }
+        public Point RenderOffset { get => m_RenderOffset; set => m_RenderOffset = value; }
 
         /// <summary>
         /// Clipping rectangle.
         /// </summary>
-        public Rectangle ClipRegion { get { return m_ClipRegion; } set { m_ClipRegion = value; } }
+        public Rectangle ClipRegion { get => m_ClipRegion; set => m_ClipRegion = value; }
 
         /// <summary>
         /// Indicates whether the clip region is visible.
@@ -82,7 +87,9 @@ namespace Gwen.Renderer
             get
             {
                 if (m_ClipRegion.Width <= 0 || m_ClipRegion.Height <= 0)
+                {
                     return false;
+                }
 
                 return true;
             }
@@ -173,7 +180,7 @@ namespace Gwen.Renderer
         /// <summary>
         /// Cache to texture provider.
         /// </summary>
-        public virtual ICacheToTexture CTT { get { return null; } }
+        public virtual ICacheToTexture CTT => null;
 
         /// <summary>
         /// Loads the specified font.
@@ -220,7 +227,9 @@ namespace Gwen.Renderer
                 char chr = text[i];
 
                 if (chr == ' ')
+                {
                     continue;
+                }
 
                 Rectangle r = Util.FloatRect(position.X + i * size * 0.4f, position.Y, size * 0.4f - 1, size);
 
@@ -252,9 +261,13 @@ namespace Gwen.Renderer
                 }
 
                 if (chr == 'o' || chr == 'O' || chr == '0')
+                {
                     DrawLinedRect(r);
+                }
                 else
+                {
                     DrawFilledRect(r);
+                }
             }
         }
 
@@ -434,6 +447,14 @@ namespace Gwen.Renderer
             }
 
             m_ClipRegion = r;
+        }
+
+        /// <summary>
+        /// Changes hardware or software mouse cursor
+        /// </summary>
+        /// <param name="cursorType">Type of cursor to set</param>
+        public virtual void SetCursor(CursorType cursorType)
+        {
         }
     }
 }

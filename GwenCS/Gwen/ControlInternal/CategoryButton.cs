@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -31,20 +30,32 @@ namespace Gwen.ControlInternal
             if (m_Alt)
             {
                 if (IsDepressed || ToggleState)
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.LineAlt.Button_Selected;
+                }
                 else if (IsHovered)
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.LineAlt.Button_Hover;
+                }
                 else
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.LineAlt.Button;
+                }
             }
             else
             {
                 if (IsDepressed || ToggleState)
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.Line.Button_Selected;
+                }
                 else if (IsHovered)
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.Line.Button_Hover;
+                }
                 else
+                {
                     Skin.Renderer.DrawColor = skin.Colors.Category.Line.Button;
+                }
             }
 
             skin.Renderer.DrawFilledRect(RenderBounds);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Gwen.Control
 {
@@ -10,7 +9,7 @@ namespace Gwen.Control
     {
         private readonly Texture m_Texture;
         private readonly float[] m_uv;
-        private Color m_DrawColor;
+        private readonly Color m_DrawColor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImagePanel"/> class.
@@ -51,8 +50,8 @@ namespace Gwen.Control
         /// </summary>
         public string ImageName
         {
-            get { return m_Texture.Name; }
-            set { m_Texture.Load(value); }
+            get => m_Texture.Name;
+            set => m_Texture.Load(value);
         }
 
         /// <summary>
@@ -92,7 +91,10 @@ namespace Gwen.Control
         protected override bool OnKeySpace(bool down)
         {
             if (down)
+            {
                 base.OnMouseClickedLeft(0, 0, true);
+            }
+
             return true;
         }
     }

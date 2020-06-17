@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
 
 namespace Gwen.Control
 {
@@ -25,12 +24,16 @@ namespace Gwen.Control
         /// <returns>Newly created control</returns>
         public Properties Add(string label)
         {
-            TreeNode node = new PropertyTreeNode(this);
-            node.Text = label;
-            node.Dock = Pos.Top;
+            TreeNode node = new PropertyTreeNode(this)
+            {
+                Text = label,
+                Dock = Pos.Top
+            };
 
-            Properties props = new Properties(node);
-            props.Dock = Pos.Top;
+            Properties props = new Properties(node)
+            {
+                Dock = Pos.Top
+            };
 
             return props;
         }

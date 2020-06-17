@@ -38,21 +38,29 @@ namespace Gwen
             return other.Top == Top && other.Bottom == Bottom && other.Left == Left && other.Right == Right;
         }
 
-        public static bool operator==(Margin lhs, Margin rhs)
+        public static bool operator ==(Margin lhs, Margin rhs)
         {
             return lhs.Equals(rhs);
         }
 
-        public static bool operator!=(Margin lhs, Margin rhs)
+        public static bool operator !=(Margin lhs, Margin rhs)
         {
             return !lhs.Equals(rhs);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (obj.GetType() != typeof (Margin)) return false;
-            return Equals((Margin) obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (obj.GetType() != typeof(Margin))
+            {
+                return false;
+            }
+
+            return Equals((Margin)obj);
         }
 
         public override int GetHashCode()
@@ -60,9 +68,9 @@ namespace Gwen
             unchecked
             {
                 int result = Top;
-                result = (result*397) ^ Bottom;
-                result = (result*397) ^ Left;
-                result = (result*397) ^ Right;
+                result = (result * 397) ^ Bottom;
+                result = (result * 397) ^ Left;
+                result = (result * 397) ^ Right;
                 return result;
             }
         }

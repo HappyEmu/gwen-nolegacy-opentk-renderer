@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System.Drawing;
 
 namespace Gwen
 {
@@ -17,7 +17,9 @@ namespace Gwen
         public static void Enable(Base control)
         {
             if (null == control.ToolTip)
+            {
                 return;
+            }
 
             g_ToolTip = control;
         }
@@ -49,7 +51,10 @@ namespace Gwen
         /// <param name="skin"></param>
         public static void RenderToolTip(Skin.Base skin)
         {
-            if (null == g_ToolTip) return;
+            if (null == g_ToolTip)
+            {
+                return;
+            }
 
             Renderer.Base render = skin.Renderer;
 
@@ -57,7 +62,7 @@ namespace Gwen
             Point mousePos = Input.InputHandler.MousePosition;
             Rectangle bounds = g_ToolTip.ToolTip.Bounds;
 
-            Rectangle offset = Util.FloatRect(mousePos.X - bounds.Width*0.5f, mousePos.Y - bounds.Height - 10,
+            Rectangle offset = Util.FloatRect(mousePos.X - bounds.Width * 0.5f, mousePos.Y - bounds.Height - 10,
                                                  bounds.Width, bounds.Height);
             offset = Util.ClampRectToRect(offset, g_ToolTip.GetCanvas().Bounds);
 

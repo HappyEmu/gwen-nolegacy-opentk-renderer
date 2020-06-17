@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gwen.Control.Layout
+﻿namespace Gwen.Control.Layout
 {
     /// <summary>
     /// Helper control that positions its children in a specific way.
@@ -12,7 +10,7 @@ namespace Gwen.Control.Layout
         /// <summary>
         /// Children position.
         /// </summary>
-        public Pos Pos { get { return m_Pos; } set { m_Pos = value; } }
+        public Pos Pos { get => m_Pos; set => m_Pos = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Positioner"/> class.

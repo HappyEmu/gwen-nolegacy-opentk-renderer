@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Gwen.Input;
+using System;
 using System.Drawing;
-using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -36,7 +36,10 @@ namespace Gwen.Control
         public override void Dispose()
         {
             if (m_Texture != null)
+            {
                 m_Texture.Dispose();
+            }
+
             base.Dispose();
         }
 
@@ -64,15 +67,17 @@ namespace Gwen.Control
                     }
                 }
 
-                m_Texture = new Texture(skin.Renderer);
-                m_Texture.Width = Width;
-                m_Texture.Height = Height;
+                m_Texture = new Texture(skin.Renderer)
+                {
+                    Width = Width,
+                    Height = Height
+                };
                 m_Texture.LoadRaw(Width, Height, pixelData);
             }
 
             skin.Renderer.DrawColor = Color.White;
-            skin.Renderer.DrawTexturedRect(m_Texture, new Rectangle(5, 0, Width-10, Height));
-            
+            skin.Renderer.DrawTexturedRect(m_Texture, new Rectangle(5, 0, Width - 10, Height));
+
             int drawHeight = m_SelectedDist - 3;
 
             //Draw our selectors
@@ -95,12 +100,16 @@ namespace Gwen.Control
         /// <param name="down">If set to <c>true</c> mouse button is down.</param>
         protected override void OnMouseClickedLeft(int x, int y, bool down)
         {
-			base.OnMouseClickedLeft(x, y, down);
+            base.OnMouseClickedLeft(x, y, down);
             m_Depressed = down;
             if (down)
+            {
                 InputHandler.MouseFocus = this;
+            }
             else
+            {
                 InputHandler.MouseFocus = null;
+            }
 
             OnMouseMoved(x, y, 0, 0);
         }
@@ -119,13 +128,20 @@ namespace Gwen.Control
                 Point cursorPos = CanvasPosToLocal(new Point(x, y));
 
                 if (cursorPos.Y < 0)
+                {
                     cursorPos.Y = 0;
+                }
+
                 if (cursorPos.Y > Height)
+                {
                     cursorPos.Y = Height;
+                }
 
                 m_SelectedDist = cursorPos.Y;
                 if (ColorChanged != null)
+                {
                     ColorChanged.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -142,12 +158,14 @@ namespace Gwen.Control
             m_SelectedDist = (int)(hsv.h / 360 * Height);
 
             if (ColorChanged != null)
+            {
                 ColorChanged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
         /// Selected color.
         /// </summary>
-        public Color SelectedColor { get { return GetColorAtHeight(m_SelectedDist); } set { SetColor(value); } }
+        public Color SelectedColor { get => GetColorAtHeight(m_SelectedDist); set => SetColor(value); }
     }
 }

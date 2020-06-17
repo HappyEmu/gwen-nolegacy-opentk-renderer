@@ -23,7 +23,7 @@ namespace Gwen.Control
         /// <param name="parent">Parent control.</param>
         public CollapsibleList(Base parent) : base(parent)
         {
-			MouseInputEnabled = true;
+            MouseInputEnabled = true;
             EnableScroll(false, true);
             AutoHideBars = true;
         }
@@ -39,12 +39,16 @@ namespace Gwen.Control
             {
                 CollapsibleCategory cat = child as CollapsibleCategory;
                 if (cat == null)
+                {
                     continue;
+                }
 
                 Button button = cat.GetSelectedButton();
 
                 if (button != null)
+                {
                     return button;
+                }
             }
 
             return null;
@@ -71,8 +75,10 @@ namespace Gwen.Control
         /// <returns>Newly created control.</returns>
         public virtual CollapsibleCategory Add(string categoryName)
         {
-            CollapsibleCategory cat = new CollapsibleCategory(this);
-            cat.Text = categoryName;
+            CollapsibleCategory cat = new CollapsibleCategory(this)
+            {
+                Text = categoryName
+            };
             Add(cat);
             return cat;
         }
@@ -96,7 +102,9 @@ namespace Gwen.Control
             {
                 CollapsibleCategory cat = child as CollapsibleCategory;
                 if (cat == null)
+                {
                     continue;
+                }
 
                 cat.UnselectAll();
             }
@@ -109,10 +117,15 @@ namespace Gwen.Control
 		protected virtual void OnCategorySelected(Base control, EventArgs args)
         {
             CollapsibleCategory cat = control as CollapsibleCategory;
-            if (cat == null) return;
+            if (cat == null)
+            {
+                return;
+            }
 
             if (ItemSelected != null)
+            {
                 ItemSelected.Invoke(this, new ItemSelectedEventArgs(cat));
+            }
         }
 
         /// <summary>
@@ -122,10 +135,15 @@ namespace Gwen.Control
         protected virtual void OnCategoryCollapsed(Base control, EventArgs args)
         {
             CollapsibleCategory cat = control as CollapsibleCategory;
-            if (cat == null) return;
+            if (cat == null)
+            {
+                return;
+            }
 
             if (CategoryCollapsed != null)
+            {
                 CategoryCollapsed.Invoke(control, EventArgs.Empty);
+            }
         }
     }
 }

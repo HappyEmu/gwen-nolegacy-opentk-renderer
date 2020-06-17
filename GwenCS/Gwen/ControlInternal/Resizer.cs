@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Gwen.Control;
+using System;
 using System.Drawing;
-using System.Windows.Forms;
-using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -39,8 +38,15 @@ namespace Gwen.ControlInternal
         /// <param name="dy">Y change.</param>
         protected override void OnMouseMoved(int x, int y, int dx, int dy)
         {
-            if (null == m_Target) return;
-            if (!m_Held) return;
+            if (null == m_Target)
+            {
+                return;
+            }
+
+            if (!m_Held)
+            {
+                return;
+            }
 
             Rectangle oldBounds = m_Target.Bounds;
             Rectangle bounds = m_Target.Bounds;
@@ -96,7 +102,11 @@ namespace Gwen.ControlInternal
                 int woff = bounds.Width - m_HoldPos.X;
                 int diff = bounds.Width;
                 bounds.Width = pCursorPos.X + woff;
-                if (bounds.Width < min.X) bounds.Width = min.X;
+                if (bounds.Width < min.X)
+                {
+                    bounds.Width = min.X;
+                }
+
                 diff -= bounds.Width;
 
                 m_HoldPos.X -= diff;
@@ -107,7 +117,11 @@ namespace Gwen.ControlInternal
                 int hoff = bounds.Height - m_HoldPos.Y;
                 int diff = bounds.Height;
                 bounds.Height = pCursorPos.Y + hoff;
-                if (bounds.Height < min.Y) bounds.Height = min.Y;
+                if (bounds.Height < min.Y)
+                {
+                    bounds.Height = min.Y;
+                }
+
                 diff -= bounds.Height;
 
                 m_HoldPos.Y -= diff;
@@ -116,7 +130,9 @@ namespace Gwen.ControlInternal
             m_Target.SetBounds(bounds);
 
             if (Resized != null)
+            {
                 Resized.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -130,23 +146,22 @@ namespace Gwen.ControlInternal
 
                 if ((0 != (value & Pos.Left) && 0 != (value & Pos.Top)) || (0 != (value & Pos.Right) && 0 != (value & Pos.Bottom)))
                 {
-                    Cursor = Cursors.SizeNWSE;
+                    Cursor = CursorType.SizeNWSE;
                     return;
                 }
                 if ((0 != (value & Pos.Right) && 0 != (value & Pos.Top)) || (0 != (value & Pos.Left) && 0 != (value & Pos.Bottom)))
                 {
-                    Cursor = Cursors.SizeNESW;
+                    Cursor = CursorType.SizeNESW;
                     return;
                 }
                 if (0 != (value & Pos.Right) || 0 != (value & Pos.Left))
                 {
-                    Cursor = Cursors.SizeWE;
+                    Cursor = CursorType.SizeWE;
                     return;
                 }
                 if (0 != (value & Pos.Top) || 0 != (value & Pos.Bottom))
                 {
-                    Cursor = Cursors.SizeNS;
-                    return;
+                    Cursor = CursorType.SizeNS;
                 }
             }
         }

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Gwen.Control;
 using System.Drawing;
-using Gwen.Control;
 
 namespace Gwen.UnitTest
 {
     public class RichLabel : GUnit
     {
-        private Font f1, f2, f3;
+        private readonly Font f1, f2, f3;
 
         public RichLabel(Base parent) : base(parent)
         {
@@ -15,7 +14,7 @@ namespace Gwen.UnitTest
 
             f1 = new Font(Skin.Renderer, "Arial", 15);
             label.AddText("This test uses Arial 15, Red. Padding. ", Color.Red, f1);
-            
+
             f2 = new Font(Skin.Renderer, "Times New Roman Bold", 20);
             label.AddText("This text uses Times New Roman Bold 20, Green. Padding. ", Color.Green, f2);
 

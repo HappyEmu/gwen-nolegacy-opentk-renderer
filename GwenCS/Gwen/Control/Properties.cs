@@ -1,6 +1,5 @@
-﻿using System;
-using System.Windows.Forms;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
+using System;
 
 namespace Gwen.Control
 {
@@ -14,7 +13,7 @@ namespace Gwen.Control
         /// <summary>
         /// Returns the width of the first column (property names).
         /// </summary>
-        public int SplitWidth { get { return m_SplitterBar.X; } } // todo: rename?
+        public int SplitWidth => m_SplitterBar.X;  // todo: rename?
 
         /// <summary>
         /// Invoked when a property value has been changed.
@@ -30,7 +29,7 @@ namespace Gwen.Control
         {
             m_SplitterBar = new SplitterBar(this);
             m_SplitterBar.SetPosition(80, 0);
-            m_SplitterBar.Cursor = Cursors.SizeWE;
+            m_SplitterBar.Cursor = CursorType.SizeWE;
             m_SplitterBar.Dragged += OnSplitterMoved;
             m_SplitterBar.ShouldDrawBackground = false;
         }
@@ -66,7 +65,7 @@ namespace Gwen.Control
         /// <param name="label">Property name.</param>
         /// <param name="value">Initial value.</param>
         /// <returns>Newly created row.</returns>
-        public PropertyRow Add(string label, string value="")
+        public PropertyRow Add(string label, string value = "")
         {
             return Add(label, new Property.Text(this), value);
         }
@@ -78,11 +77,13 @@ namespace Gwen.Control
         /// <param name="prop">Property control.</param>
         /// <param name="value">Initial value.</param>
         /// <returns>Newly created row.</returns>
-        public PropertyRow Add(string label, Property.Base prop, string value="")
+        public PropertyRow Add(string label, Property.Base prop, string value = "")
         {
-            PropertyRow row = new PropertyRow(this, prop);
-            row.Dock = Pos.Top;
-            row.Label = label;
+            PropertyRow row = new PropertyRow(this, prop)
+            {
+                Dock = Pos.Top,
+                Label = label
+            };
             row.ValueChanged += OnRowValueChanged;
 
             prop.SetValue(value, true);
@@ -91,10 +92,12 @@ namespace Gwen.Control
             return row;
         }
 
-		private void OnRowValueChanged(Base control, EventArgs args)
+        private void OnRowValueChanged(Base control, EventArgs args)
         {
             if (ValueChanged != null)
-				ValueChanged.Invoke(control, EventArgs.Empty);
+            {
+                ValueChanged.Invoke(control, EventArgs.Empty);
+            }
         }
 
         /// <summary>

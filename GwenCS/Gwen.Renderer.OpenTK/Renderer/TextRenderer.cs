@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Text;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace Gwen.Renderer
 {
@@ -11,12 +9,12 @@ namespace Gwen.Renderer
     /// </summary>
     public sealed class TextRenderer : IDisposable
     {
-        readonly Bitmap bmp;
-        readonly Graphics gfx;
-        readonly Gwen.Texture texture;
-        bool disposed;
+        private readonly Bitmap bmp;
+        private readonly Graphics gfx;
+        private readonly Gwen.Texture texture;
+        private bool disposed;
 
-        public Texture Texture { get { return texture; } }
+        public Texture Texture => texture;
 
         /// <summary>
         /// Constructs a new instance.
@@ -27,11 +25,19 @@ namespace Gwen.Renderer
         public TextRenderer(int width, int height, Renderer.OpenTK renderer)
         {
             if (width <= 0)
+            {
                 throw new ArgumentOutOfRangeException("width");
+            }
+
             if (height <= 0)
+            {
                 throw new ArgumentOutOfRangeException("height");
-            if (GraphicsContext.CurrentContext == null)
-                throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
+            }
+
+            //if (GraphicsContext.CurrentContext == null)
+            //{
+            //    throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
+            //}
 
             bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             gfx = Graphics.FromImage(bmp);
@@ -48,7 +54,7 @@ namespace Gwen.Renderer
 
             gfx.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             gfx.Clear(Color.Transparent);
-            texture = new Texture(renderer) {Width = width, Height = height};
+            texture = new Texture(renderer) { Width = width, Height = height };
         }
 
         /// <summary>
@@ -65,7 +71,7 @@ namespace Gwen.Renderer
             OpenTK.LoadTextureInternal(texture, bmp); // copy bitmap to gl texture
         }
 
-        void Dispose(bool manual)
+        private void Dispose(bool manual)
         {
             if (!disposed)
             {

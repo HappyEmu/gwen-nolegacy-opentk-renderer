@@ -24,7 +24,7 @@ namespace Gwen
 
         //public bool Bold { get; set; }
         //public bool DropShadow { get; set; }
-        
+
         /// <summary>
         /// This should be set by the renderer if it tries to use a font where it's null.
         /// </summary>
@@ -70,7 +70,7 @@ namespace Gwen
             m_Renderer.FreeFont(this);
             GC.SuppressFinalize(this);
         }
-        
+
 #if DEBUG
         ~Font()
         {
@@ -85,10 +85,12 @@ namespace Gwen
         /// <returns></returns>
         public Font Copy()
         {
-            Font f = new Font(m_Renderer, FaceName);
-            f.Size = Size;
-            f.RealSize = RealSize;
-            f.RendererData = null; // must be reinitialized
+            Font f = new Font(m_Renderer, FaceName)
+            {
+                Size = Size,
+                RealSize = RealSize,
+                RendererData = null // must be reinitialized
+            };
             //f.Bold = Bold;
             //f.DropShadow = DropShadow;
 

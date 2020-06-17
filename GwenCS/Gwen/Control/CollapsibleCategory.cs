@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
+using System;
 
 namespace Gwen.Control
 {
@@ -14,12 +14,12 @@ namespace Gwen.Control
         /// <summary>
         /// Header text.
         /// </summary>
-        public string Text { get { return m_HeaderButton.Text; } set { m_HeaderButton.Text = value; } }
+        public string Text { get => m_HeaderButton.Text; set => m_HeaderButton.Text = value; }
 
         /// <summary>
         /// Determines whether the category is collapsed (closed).
         /// </summary>
-        public bool IsCollapsed { get { return m_HeaderButton.ToggleState; } set { m_HeaderButton.ToggleState = value; } }
+        public bool IsCollapsed { get => m_HeaderButton.ToggleState; set => m_HeaderButton.ToggleState = value; }
 
         /// <summary>
         /// Invoked when an entry has been selected.
@@ -37,10 +37,12 @@ namespace Gwen.Control
         /// <param name="parent">Parent control.</param>
         public CollapsibleCategory(CollapsibleList parent) : base(parent)
         {
-            m_HeaderButton = new CategoryHeaderButton(this);
-            m_HeaderButton.Text = "Category Title"; // [omeg] todo: i18n
-            m_HeaderButton.Dock = Pos.Top;
-            m_HeaderButton.Height = 20;
+            m_HeaderButton = new CategoryHeaderButton(this)
+            {
+                Text = "Category Title", // [omeg] todo: i18n
+                Dock = Pos.Top,
+                Height = 20
+            };
             m_HeaderButton.Toggled += OnHeaderToggle;
 
             m_List = parent;
@@ -58,10 +60,14 @@ namespace Gwen.Control
             {
                 CategoryButton button = child as CategoryButton;
                 if (button == null)
+                {
                     continue;
+                }
 
                 if (button.ToggleState)
+                {
                     return button;
+                }
             }
 
             return null;
@@ -74,7 +80,9 @@ namespace Gwen.Control
 		protected virtual void OnHeaderToggle(Base control, EventArgs args)
         {
             if (Collapsed != null)
-				Collapsed.Invoke(this, EventArgs.Empty);
+            {
+                Collapsed.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -84,7 +92,10 @@ namespace Gwen.Control
 		protected virtual void OnSelected(Base control, EventArgs args)
         {
             CategoryButton child = control as CategoryButton;
-            if (child == null) return;
+            if (child == null)
+            {
+                return;
+            }
 
             if (m_List != null)
             {
@@ -98,7 +109,9 @@ namespace Gwen.Control
             child.ToggleState = true;
 
             if (Selected != null)
+            {
                 Selected.Invoke(this, new ItemSelectedEventArgs(control));
+            }
         }
 
         /// <summary>
@@ -108,9 +121,11 @@ namespace Gwen.Control
         /// <returns>Newly created control.</returns>
         public Button Add(string name)
         {
-            CategoryButton button = new CategoryButton(this);
-            button.Text = name;
-            button.Dock = Pos.Top;
+            CategoryButton button = new CategoryButton(this)
+            {
+                Text = name,
+                Dock = Pos.Top
+            };
             button.SizeToContents();
             button.SetSize(button.Width + 4, button.Height + 4);
             button.Padding = new Padding(5, 2, 2, 2);
@@ -138,7 +153,9 @@ namespace Gwen.Control
             {
                 CategoryButton button = child as CategoryButton;
                 if (button == null)
+                {
                     continue;
+                }
 
                 button.ToggleState = false;
             }
@@ -165,7 +182,9 @@ namespace Gwen.Control
             {
                 CategoryButton button = child as CategoryButton;
                 if (button == null)
+                {
                     continue;
+                }
 
                 button.m_Alt = b;
                 button.UpdateColors();

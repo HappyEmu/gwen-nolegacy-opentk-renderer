@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Gwen.ControlInternal;
+using System;
 using System.Drawing;
-using Gwen.ControlInternal;
 
 namespace Gwen.Control
 {
@@ -19,43 +19,51 @@ namespace Gwen.Control
         /// <summary>
         /// Indicates whether the item is on a menu strip.
         /// </summary>
-        public bool IsOnStrip { get { return m_OnStrip; } set { m_OnStrip = value; } }
+        public bool IsOnStrip { get => m_OnStrip; set => m_OnStrip = value; }
 
         /// <summary>
         /// Determines if the menu item is checkable.
         /// </summary>
-        public bool IsCheckable { get { return m_Checkable; } set { m_Checkable = value; } }
+        public bool IsCheckable { get => m_Checkable; set => m_Checkable = value; }
 
         /// <summary>
         /// Indicates if the parent menu is open.
         /// </summary>
-        public bool IsMenuOpen { get { if (m_Menu == null) return false; return !m_Menu.IsHidden; } }
+        public bool IsMenuOpen { get { if (m_Menu == null) { return false; } return !m_Menu.IsHidden; } }
 
         /// <summary>
         /// Gets or sets the check value.
         /// </summary>
         public bool IsChecked
         {
-            get { return m_Checked; }
+            get => m_Checked;
             set
             {
                 if (value == m_Checked)
+                {
                     return;
+                }
 
                 m_Checked = value;
 
                 if (CheckChanged != null)
+                {
                     CheckChanged.Invoke(this, EventArgs.Empty);
+                }
 
                 if (value)
                 {
                     if (Checked != null)
-						Checked.Invoke(this, EventArgs.Empty);
+                    {
+                        Checked.Invoke(this, EventArgs.Empty);
+                    }
                 }
                 else
                 {
                     if (UnChecked != null)
-						UnChecked.Invoke(this, EventArgs.Empty);
+                    {
+                        UnChecked.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -69,13 +77,18 @@ namespace Gwen.Control
             {
                 if (null == m_Menu)
                 {
-                    m_Menu = new Menu(GetCanvas());
-                    m_Menu.IsHidden = true;
+                    m_Menu = new Menu(GetCanvas())
+                    {
+                        IsHidden = true
+                    };
 
                     if (!m_OnStrip)
                     {
                         if (m_SubmenuArrow != null)
+                        {
                             m_SubmenuArrow.Dispose();
+                        }
+
                         m_SubmenuArrow = new RightArrow(this);
                         m_SubmenuArrow.SetSize(15, 15);
                     }
@@ -114,8 +127,8 @@ namespace Gwen.Control
         public MenuItem(Base parent)
             : base(parent)
         {
-			AutoSizeToContents = true;
-			m_OnStrip = false;
+            AutoSizeToContents = true;
+            m_OnStrip = false;
             IsTabable = false;
             IsCheckable = false;
             IsChecked = false;
@@ -158,7 +171,10 @@ namespace Gwen.Control
             {
                 IsChecked = !IsChecked;
                 if (Selected != null)
-					Selected.Invoke(this, new ItemSelectedEventArgs(this));
+                {
+                    Selected.Invoke(this, new ItemSelectedEventArgs(this));
+                }
+
                 GetCanvas().CloseMenus();
             }
             base.OnClicked(x, y);
@@ -170,9 +186,13 @@ namespace Gwen.Control
         public void ToggleMenu()
         {
             if (IsMenuOpen)
+            {
                 CloseMenu();
+            }
             else
+            {
                 OpenMenu();
+            }
         }
 
         /// <summary>
@@ -180,7 +200,10 @@ namespace Gwen.Control
         /// </summary>
         public void OpenMenu()
         {
-            if (null == m_Menu) return;
+            if (null == m_Menu)
+            {
+                return;
+            }
 
             m_Menu.IsHidden = false;
             m_Menu.BringToFront();
@@ -208,7 +231,11 @@ namespace Gwen.Control
         /// </summary>
         public void CloseMenu()
         {
-            if (null == m_Menu) return;
+            if (null == m_Menu)
+            {
+                return;
+            }
+
             m_Menu.Close();
             m_Menu.CloseAll();
         }
@@ -243,13 +270,17 @@ namespace Gwen.Control
             }
 
             if (acc == String.Empty)
+            {
                 return;
+            }
 
-            m_Accelerator = new Label(this);
-            m_Accelerator.Dock = Pos.Right;
-            m_Accelerator.Alignment = Pos.Right | Pos.CenterV;
-            m_Accelerator.Text = acc;
-            m_Accelerator.Margin = new Margin(0, 0, 16, 0);
+            m_Accelerator = new Label(this)
+            {
+                Dock = Pos.Right,
+                Alignment = Pos.Right | Pos.CenterV,
+                Text = acc,
+                Margin = new Margin(0, 0, 16, 0)
+            };
             // todo
         }
     }

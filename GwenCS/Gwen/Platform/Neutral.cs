@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Windows.Forms;
+using TextCopy;
 
 namespace Gwen.Platform
 {
@@ -9,16 +8,7 @@ namespace Gwen.Platform
     /// </summary>
     public static class Neutral
     {
-        private static DateTime m_FirstTime = DateTime.Now;
-
-        /// <summary>
-        /// Changes the mouse cursor.
-        /// </summary>
-        /// <param name="cursor">Cursor type.</param>
-        public static void SetCursor(Cursor cursor)
-        {
-            Cursor.Current = cursor;
-        }
+        private static readonly DateTime m_FirstTime = DateTime.Now;
 
         /// <summary>
         /// Gets text from clipboard.
@@ -26,27 +16,7 @@ namespace Gwen.Platform
         /// <returns>Clipboard text.</returns>
         public static string GetClipboardText()
         {
-            // code from http://forums.getpaint.net/index.php?/topic/13712-trouble-accessing-the-clipboard/page__view__findpost__p__226140
-            string ret = String.Empty;
-            Thread staThread = new Thread(
-                () =>
-                {
-                    try
-                    {
-                        if (!Clipboard.ContainsText())
-                            return;
-                        ret = Clipboard.GetText();
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                });
-            staThread.SetApartmentState(ApartmentState.STA);
-            staThread.Start();
-            staThread.Join();
-            // at this point either you have clipboard data or an exception
-            return ret;
+            return ClipboardService.GetText();
         }
 
         /// <summary>
@@ -56,25 +26,8 @@ namespace Gwen.Platform
         /// <returns>True if succeeded.</returns>
         public static bool SetClipboardText(string text)
         {
-            bool ret = false;
-            Thread staThread = new Thread(
-                () =>
-                {
-                    try
-                    {
-                        Clipboard.SetText(text);
-                        ret = true;
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                });
-            staThread.SetApartmentState(ApartmentState.STA);
-            staThread.Start();
-            staThread.Join();
-            // at this point either you have clipboard data or an exception
-            return ret;
+            ClipboardService.SetText(text);
+            return true;
         }
 
         /// <summary>
@@ -91,82 +44,6 @@ namespace Gwen.Platform
             //  (that's gotta be good enough, right?)
             //P.S. someone fix those numbers if I'm wrong.
             return (float)((DateTime.Now - m_FirstTime).TotalSeconds);
-        }
-
-        /// <summary>
-        /// Displays an open file dialog.
-        /// </summary>
-        /// <param name="title">Dialog title.</param>
-        /// <param name="startPath">Initial path.</param>
-        /// <param name="extension">File extension filter.</param>
-        /// <param name="callback">Callback that is executed after the dialog completes.</param>
-        /// <returns>True if succeeded.</returns>
-        public static bool FileOpen(string title, string startPath, string extension, Action<string> callback)
-        {
-            var dialog = new OpenFileDialog
-                             {
-                                 Title = title,
-                                 InitialDirectory = startPath,
-                                 DefaultExt = @"*.*",
-                                 Filter = extension,
-                                 CheckPathExists = true,
-                                 Multiselect = false
-                             };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                if (callback != null)
-                {
-                    callback(dialog.FileName);
-                }
-            }
-            else
-            {
-                if (callback != null)
-                {
-                    callback(String.Empty);
-                }
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Displays a save file dialog.
-        /// </summary>
-        /// <param name="title">Dialog title.</param>
-        /// <param name="startPath">Initial path.</param>
-        /// <param name="extension">File extension filter.</param>
-        /// <param name="callback">Callback that is executed after the dialog completes.</param>
-        /// <returns>True if succeeded.</returns>
-        public static bool FileSave(string title, string startPath, string extension, Action<string> callback)
-        {
-            var dialog = new SaveFileDialog
-            {
-                Title = title,
-                InitialDirectory = startPath,
-                DefaultExt = @"*.*",
-                Filter = extension,
-                CheckPathExists = true,
-                OverwritePrompt = true
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                if (callback != null)
-                {
-                    callback(dialog.FileName);
-                }
-            }
-            else
-            {
-                if (callback != null)
-                {
-                    callback(String.Empty);
-                }
-                return false;
-            }
-
-            return true;
         }
     }
 }

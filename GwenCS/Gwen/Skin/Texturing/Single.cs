@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Gwen.Skin.Texturing
 {
@@ -13,7 +12,7 @@ namespace Gwen.Skin.Texturing
         private readonly int m_Width;
         private readonly int m_Height;
 
-        public Single(Texture texture, float x, float y, float w, float h )
+        public Single(Texture texture, float x, float y, float w, float h)
         {
             m_Texture = texture;
 
@@ -26,8 +25,8 @@ namespace Gwen.Skin.Texturing
             m_uv[2] = (x + w) / texw;
             m_uv[3] = (y + h) / texh;
 
-            m_Width = (int) w;
-            m_Height = (int) h;
+            m_Width = (int)w;
+            m_Height = (int)h;
         }
 
         // can't have this as default param
@@ -39,7 +38,9 @@ namespace Gwen.Skin.Texturing
         public void Draw(Renderer.Base render, Rectangle r, Color col)
         {
             if (m_Texture == null)
+            {
                 return;
+            }
 
             render.DrawColor = col;
             render.DrawTexturedRect(m_Texture, r, m_uv[0], m_uv[1], m_uv[2], m_uv[3]);
@@ -48,7 +49,9 @@ namespace Gwen.Skin.Texturing
         public void DrawCenter(Renderer.Base render, Rectangle r)
         {
             if (m_Texture == null)
+            {
                 return;
+            }
 
             DrawCenter(render, r, Color.White);
         }

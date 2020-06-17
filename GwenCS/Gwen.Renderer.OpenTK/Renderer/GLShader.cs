@@ -1,105 +1,101 @@
+using OpenToolkit.Graphics.OpenGL4;
 using System;
-using System.IO;
-
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Gwen.Renderer
 {
-	public class GLShader : IDisposable
-	{
-		public int Program { get; set; }
-		public int VertexShader { get; set; }
-		public int FragmentShader { get; set; }
+    public class GLShader : IDisposable
+    {
+        public int Program { get; set; }
+        public int VertexShader { get; set; }
+        public int FragmentShader { get; set; }
 
-		private UniformDictionary _uniforms;
-		public UniformDictionary Uniforms { get { return _uniforms; } set { return; } }
+        private UniformDictionary _uniforms;
+        public UniformDictionary Uniforms { get => _uniforms; set { return; } }
 
-		public GLShader ()
-		{
-			this.Program = 0;
-			this.VertexShader = 0;
-			this.FragmentShader = 0;
-		}
+        public GLShader()
+        {
+            Program = 0;
+            VertexShader = 0;
+            FragmentShader = 0;
+        }
 
-		public void Load (string shaderName)
-		{
-			Load (shaderName, shaderName);
-		}
+        public void Load(string shaderName)
+        {
+            Load(shaderName, shaderName);
+        }
 
-		public void Apply ()
-		{
-			GL.UseProgram (this.Program);
-		}
+        public void Apply()
+        {
+            GL.UseProgram(Program);
+        }
 
-		public void Load (string vertexShaderName, string fragmentShaderName)
-		{
-			string vSource = vShaderSource;
-			string fSource = fShaderSource;
+        public void Load(string vertexShaderName, string fragmentShaderName)
+        {
+            string vSource = vShaderSource;
+            string fSource = fShaderSource;
 
-			int vShader = GL.CreateShader (ShaderType.VertexShader);
-			int fShader = GL.CreateShader (ShaderType.FragmentShader);
+            int vShader = GL.CreateShader(ShaderType.VertexShader);
+            int fShader = GL.CreateShader(ShaderType.FragmentShader);
 
-			GL.ShaderSource (vShader, vSource);
-			GL.ShaderSource (fShader, fSource);
-			// Compile shaders
-			GL.CompileShader (vShader);
-			GL.CompileShader (fShader);
-			Debug.WriteLine (GL.GetShaderInfoLog (vShader));
-			Debug.WriteLine (GL.GetShaderInfoLog (fShader));
+            GL.ShaderSource(vShader, vSource);
+            GL.ShaderSource(fShader, fSource);
+            // Compile shaders
+            GL.CompileShader(vShader);
+            GL.CompileShader(fShader);
+            Debug.WriteLine(GL.GetShaderInfoLog(vShader));
+            Debug.WriteLine(GL.GetShaderInfoLog(fShader));
 
-			int program = GL.CreateProgram ();
-			// Link and attach shaders to program
-			GL.AttachShader (program, vShader);
-			GL.AttachShader (program, fShader);
+            int program = GL.CreateProgram();
+            // Link and attach shaders to program
+            GL.AttachShader(program, vShader);
+            GL.AttachShader(program, fShader);
 
-			GL.LinkProgram (program);
-			Debug.WriteLine (GL.GetProgramInfoLog (program));
+            GL.LinkProgram(program);
+            Debug.WriteLine(GL.GetProgramInfoLog(program));
 
-			this.Program = program;
-			this.VertexShader = vShader;
-			this.FragmentShader = fShader;
-			this._uniforms = new UniformDictionary (Program);
-		}
+            Program = program;
+            VertexShader = vShader;
+            FragmentShader = fShader;
+            _uniforms = new UniformDictionary(Program);
+        }
 
-		public class UniformDictionary
-		{
-			private Dictionary<string, int> _data;
-			private int _program;
+        public class UniformDictionary
+        {
+            private readonly Dictionary<string, int> _data;
+            private readonly int _program;
 
-			public UniformDictionary (int program)
-			{
-				_data = new Dictionary<string, int> ();
-				_program = program;
-			}
+            public UniformDictionary(int program)
+            {
+                _data = new Dictionary<string, int>();
+                _program = program;
+            }
 
-			public int this[string key]
-			{
-				get
-				{
-					if (!this._data.ContainsKey (key)) {
-						int uniformLocation = GL.GetUniformLocation (_program, key);
-						this._data.Add (key, uniformLocation);
-					}
+            public int this[string key]
+            {
+                get
+                {
+                    if (!_data.ContainsKey(key))
+                    {
+                        int uniformLocation = GL.GetUniformLocation(_program, key);
+                        _data.Add(key, uniformLocation);
+                    }
 
-					int loc = -1;
-					this._data.TryGetValue (key, out loc);
+                    int loc = -1;
+                    _data.TryGetValue(key, out loc);
 
-					return loc;
-				}
-			}
-		}
+                    return loc;
+                }
+            }
+        }
 
-		public void Dispose ()
-		{
-			GL.DeleteProgram (this.Program);
-		}
+        public void Dispose()
+        {
+            GL.DeleteProgram(Program);
+        }
 
-		private const string vShaderSource = @"
+        private const string vShaderSource = @"
 #version 420
 
 layout(location=0) in vec2 in_screen_coords;
@@ -123,7 +119,7 @@ void main(void)
 }";
 
 
-		private const string fShaderSource = @"
+        private const string fShaderSource = @"
 #version 420
 
 in vec2 frag_uv;
@@ -141,6 +137,6 @@ void main(void)
 	out_frag_color = texColor * uUseTexture + frag_color * (1.0 - uUseTexture);
 }";
 
-	}
+    }
 }
 

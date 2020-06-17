@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Gwen.ControlInternal;
+using System;
 using System.Drawing;
-using Gwen.ControlInternal;
 
 namespace Gwen.Control
 {
@@ -15,27 +14,27 @@ namespace Gwen.Control
         /// <summary>
         /// Selected color.
         /// </summary>
-        public Color SelectedColor { get { return m_Color; } set { m_Color = value; UpdateControls(); } }
+        public Color SelectedColor { get => m_Color; set { m_Color = value; UpdateControls(); } }
 
         /// <summary>
         /// Red value of the selected color.
         /// </summary>
-        public int R { get { return m_Color.R; } set { m_Color = Color.FromArgb(m_Color.A, value, m_Color.G, m_Color.B); } }
+        public int R { get => m_Color.R; set => m_Color = Color.FromArgb(m_Color.A, value, m_Color.G, m_Color.B); }
 
         /// <summary>
         /// Green value of the selected color.
         /// </summary>
-        public int G { get { return m_Color.G; } set { m_Color = Color.FromArgb(m_Color.A, m_Color.R, value, m_Color.B); } }
+        public int G { get => m_Color.G; set => m_Color = Color.FromArgb(m_Color.A, m_Color.R, value, m_Color.B); }
 
         /// <summary>
         /// Blue value of the selected color.
         /// </summary>
-        public int B { get { return m_Color.B; } set { m_Color = Color.FromArgb(m_Color.A, m_Color.R, m_Color.G, value); } }
+        public int B { get => m_Color.B; set => m_Color = Color.FromArgb(m_Color.A, m_Color.R, m_Color.G, value); }
 
         /// <summary>
         /// Alpha value of the selected color.
         /// </summary>
-        public int A { get { return m_Color.A; } set { m_Color = Color.FromArgb(value, m_Color.R, m_Color.G, m_Color.B); } }
+        public int A { get => m_Color.A; set => m_Color = Color.FromArgb(value, m_Color.R, m_Color.G, m_Color.B); }
 
         /// <summary>
         /// Invoked when the selected color has been changed.
@@ -66,12 +65,16 @@ namespace Gwen.Control
             colorGroup.SetSize(160, 35);
             colorGroup.Name = name + "groupbox";
 
-            ColorDisplay disp = new ColorDisplay(colorGroup);
-            disp.Name = name;
+            ColorDisplay disp = new ColorDisplay(colorGroup)
+            {
+                Name = name
+            };
             disp.SetBounds(0, 10, colorSize, colorSize);
 
-            TextBoxNumeric numeric = new TextBoxNumeric(colorGroup);
-            numeric.Name = name + "Box";
+            TextBoxNumeric numeric = new TextBoxNumeric(colorGroup)
+            {
+                Name = name + "Box"
+            };
             numeric.SetPosition(105, 7);
             numeric.SetSize(26, 16);
             numeric.SelectAllOnFocus = true;
@@ -85,30 +88,49 @@ namespace Gwen.Control
             slider.ValueChanged += SlidersMoved;
         }
 
-		private void NumericTyped(Base control, EventArgs args)
+        private void NumericTyped(Base control, EventArgs args)
         {
             TextBoxNumeric box = control as TextBoxNumeric;
             if (null == box)
+            {
                 return;
+            }
 
             if (box.Text == string.Empty)
+            {
                 return;
+            }
 
             int textValue = (int)box.Value;
-            if (textValue < 0) textValue = 0;
-            if (textValue > 255) textValue = 255;
+            if (textValue < 0)
+            {
+                textValue = 0;
+            }
+
+            if (textValue > 255)
+            {
+                textValue = 255;
+            }
 
             if (box.Name.Contains("Red"))
+            {
                 R = textValue;
+            }
 
             if (box.Name.Contains("Green"))
+            {
                 G = textValue;
+            }
 
             if (box.Name.Contains("Blue"))
+            {
                 B = textValue;
+            }
 
             if (box.Name.Contains("Alpha"))
+            {
                 A = textValue;
+            }
 
             UpdateControls();
         }
@@ -129,8 +151,10 @@ namespace Gwen.Control
             finalGroup.SetText("Result");
             finalGroup.Name = "ResultGroupBox";
 
-            ColorDisplay disp = new ColorDisplay(finalGroup);
-            disp.Name = "Result";
+            ColorDisplay disp = new ColorDisplay(finalGroup)
+            {
+                Name = "Result"
+            };
             disp.SetBounds(0, 10, 32, 32);
             //disp.DrawCheckers = true;
 
@@ -160,7 +184,9 @@ namespace Gwen.Control
             disp.Color = SelectedColor;
 
             if (ColorChanged != null)
+            {
                 ColorChanged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void SlidersMoved(Base control, EventArgs args)
@@ -174,7 +200,9 @@ namespace Gwen.Control
 
             HorizontalSlider slider = control as HorizontalSlider;
             if (slider != null)
+            {
                 SetColorByName(GetColorFromName(slider.Name), (int)slider.Value);
+            }
 
             UpdateControls();
             //SetColor( Gwen::Color( redSlider->GetValue(), greenSlider->GetValue(), blueSlider->GetValue(), alphaSlider->GetValue() ) );
@@ -193,7 +221,9 @@ namespace Gwen.Control
 
             GroupBox groupBox = FindChildByName("ResultGroupBox", true) as GroupBox;
             if (groupBox != null)
+            {
                 groupBox.SetPosition(groupBox.X, Height * 0.5f - groupBox.Height * 0.5f);
+            }
 
             //UpdateControls(); // this spams events continuously every tick
         }
@@ -201,39 +231,71 @@ namespace Gwen.Control
         private int GetColorByName(string colorName)
         {
             if (colorName == "Red")
+            {
                 return SelectedColor.R;
+            }
+
             if (colorName == "Green")
+            {
                 return SelectedColor.G;
+            }
+
             if (colorName == "Blue")
+            {
                 return SelectedColor.B;
+            }
+
             if (colorName == "Alpha")
+            {
                 return SelectedColor.A;
+            }
+
             return 0;
         }
 
         private static string GetColorFromName(string name)
         {
             if (name.Contains("Red"))
+            {
                 return "Red";
+            }
+
             if (name.Contains("Green"))
+            {
                 return "Green";
+            }
+
             if (name.Contains("Blue"))
+            {
                 return "Blue";
+            }
+
             if (name.Contains("Alpha"))
+            {
                 return "Alpha";
+            }
+
             return String.Empty;
         }
 
         private void SetColorByName(string colorName, int colorValue)
         {
             if (colorName == "Red")
+            {
                 R = colorValue;
+            }
             else if (colorName == "Green")
+            {
                 G = colorValue;
+            }
             else if (colorName == "Blue")
+            {
                 B = colorValue;
+            }
             else if (colorName == "Alpha")
+            {
                 A = colorValue;
+            }
         }
 
         /// <summary>

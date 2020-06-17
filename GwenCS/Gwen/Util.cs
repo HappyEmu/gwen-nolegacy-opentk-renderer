@@ -32,42 +32,66 @@ namespace Gwen
         public static int Clamp(int x, int min, int max)
         {
             if (x < min)
+            {
                 return min;
+            }
+
             if (x > max)
+            {
                 return max;
+            }
+
             return x;
         }
 
         public static float Clamp(float x, float min, float max)
         {
             if (x < min)
+            {
                 return min;
+            }
+
             if (x > max)
+            {
                 return max;
+            }
+
             return x;
         }
 
         public static Rectangle ClampRectToRect(Rectangle inside, Rectangle outside, bool clampSize = false)
         {
             if (inside.X < outside.X)
+            {
                 inside.X = outside.X;
+            }
 
             if (inside.Y < outside.Y)
+            {
                 inside.Y = outside.Y;
+            }
 
             if (inside.Right > outside.Right)
             {
                 if (clampSize)
+                {
                     inside.Width = outside.Width;
+                }
                 else
+                {
                     inside.X = outside.Right - inside.Width;
+                }
             }
             if (inside.Bottom > outside.Bottom)
             {
                 if (clampSize)
+                {
                     inside.Height = outside.Height;
+                }
                 else
+                {
                     inside.Y = outside.Bottom - inside.Height;
+                }
             }
 
             return inside;
@@ -99,15 +123,30 @@ namespace Gwen
             int t = Convert.ToInt32(v * (1 - (1 - f) * s));
 
             if (hi == 0)
+            {
                 return Color.FromArgb(255, va, t, p);
+            }
+
             if (hi == 1)
+            {
                 return Color.FromArgb(255, q, va, p);
+            }
+
             if (hi == 2)
+            {
                 return Color.FromArgb(255, p, va, t);
+            }
+
             if (hi == 3)
+            {
                 return Color.FromArgb(255, p, q, va);
+            }
+
             if (hi == 4)
+            {
                 return Color.FromArgb(255, t, p, va);
+            }
+
             return Color.FromArgb(255, va, p, q);
         }
 

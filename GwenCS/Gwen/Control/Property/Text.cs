@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gwen.Control.Property
+﻿namespace Gwen.Control.Property
 {
     /// <summary>
     /// Text property.
@@ -15,9 +13,11 @@ namespace Gwen.Control.Property
         /// <param name="parent">Parent control.</param>
         public Text(Control.Base parent) : base(parent)
         {
-            m_TextBox = new TextBox(this);
-            m_TextBox.Dock = Pos.Fill;
-            m_TextBox.ShouldDrawBackground = false;
+            m_TextBox = new TextBox(this)
+            {
+                Dock = Pos.Fill,
+                ShouldDrawBackground = false
+            };
             m_TextBox.TextChanged += OnValueChanged;
         }
 
@@ -26,8 +26,8 @@ namespace Gwen.Control.Property
         /// </summary>
         public override string Value
         {
-            get { return m_TextBox.Text; }
-            set { base.Value = value; }
+            get => m_TextBox.Text;
+            set => base.Value = value;
         }
 
         /// <summary>
@@ -43,17 +43,11 @@ namespace Gwen.Control.Property
         /// <summary>
         /// Indicates whether the property value is being edited.
         /// </summary>
-        public override bool IsEditing
-        {
-            get { return m_TextBox.HasFocus; }
-        }
+        public override bool IsEditing => m_TextBox.HasFocus;
 
         /// <summary>
         /// Indicates whether the control is hovered by mouse pointer.
         /// </summary>
-        public override bool IsHovered
-        {
-            get { return base.IsHovered | m_TextBox.IsHovered; }
-        }
+        public override bool IsHovered => base.IsHovered | m_TextBox.IsHovered;
     }
 }

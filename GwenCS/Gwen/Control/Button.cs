@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Input;
+﻿using Gwen.Input;
+using System;
 
 namespace Gwen.Control
 {
@@ -44,12 +44,15 @@ namespace Gwen.Control
         /// </summary>
         public bool IsDepressed
         {
-            get { return m_Depressed; }
+            get => m_Depressed;
             set
             {
-                if (m_Depressed == value) 
+                if (m_Depressed == value)
+                {
                     return;
-                m_Depressed = value; 
+                }
+
+                m_Depressed = value;
                 Redraw();
             }
         }
@@ -57,33 +60,46 @@ namespace Gwen.Control
         /// <summary>
         /// Indicates whether the button is toggleable.
         /// </summary>
-        public bool IsToggle { get { return m_Toggle; } set { m_Toggle = value; } }
+        public bool IsToggle { get => m_Toggle; set => m_Toggle = value; }
 
         /// <summary>
         /// Determines the button's toggle state.
         /// </summary>
         public bool ToggleState
         {
-            get { return m_ToggleStatus; }
+            get => m_ToggleStatus;
             set
             {
-                if (!m_Toggle) return;
-                if (m_ToggleStatus == value) return;
+                if (!m_Toggle)
+                {
+                    return;
+                }
+
+                if (m_ToggleStatus == value)
+                {
+                    return;
+                }
 
                 m_ToggleStatus = value;
 
                 if (Toggled != null)
-					Toggled.Invoke(this, EventArgs.Empty);
+                {
+                    Toggled.Invoke(this, EventArgs.Empty);
+                }
 
                 if (m_ToggleStatus)
                 {
                     if (ToggledOn != null)
-						ToggledOn.Invoke(this, EventArgs.Empty);
+                    {
+                        ToggledOn.Invoke(this, EventArgs.Empty);
+                    }
                 }
                 else
                 {
                     if (ToggledOff != null)
-						ToggledOff.Invoke(this, EventArgs.Empty);
+                    {
+                        ToggledOff.Invoke(this, EventArgs.Empty);
+                    }
                 }
 
                 Redraw();
@@ -97,7 +113,7 @@ namespace Gwen.Control
         public Button(Base parent)
             : base(parent)
         {
-			AutoSizeToContents = false;
+            AutoSizeToContents = false;
             SetSize(100, 20);
             MouseInputEnabled = true;
             Alignment = Pos.Center;
@@ -132,7 +148,9 @@ namespace Gwen.Control
             {
                 bool drawDepressed = IsDepressed && IsHovered;
                 if (IsToggle)
+                {
                     drawDepressed = drawDepressed || ToggleState;
+                }
 
                 bool bDrawHovered = IsHovered && ShouldDrawHover;
 
@@ -154,7 +172,9 @@ namespace Gwen.Control
                 IsDepressed = true;
                 InputHandler.MouseFocus = this;
                 if (Pressed != null)
+                {
                     Pressed.Invoke(this, EventArgs.Empty);
+                }
             }
             else
             {
@@ -166,7 +186,9 @@ namespace Gwen.Control
                 IsDepressed = false;
                 InputHandler.MouseFocus = null;
                 if (Released != null)
-					Released.Invoke(this, EventArgs.Empty);
+                {
+                    Released.Invoke(this, EventArgs.Empty);
+                }
             }
 
             Redraw();
@@ -182,9 +204,9 @@ namespace Gwen.Control
                 Toggle();
             }
 
-			base.OnMouseClickedLeft(x, y, true);
+            base.OnMouseClickedLeft(x, y, true);
         }
-        
+
         /// <summary>
         /// Sets the button's image.
         /// </summary>
@@ -195,7 +217,10 @@ namespace Gwen.Control
             if (String.IsNullOrEmpty(textureName))
             {
                 if (m_Image != null)
+                {
                     m_Image.Dispose();
+                }
+
                 m_Image = null;
                 return;
             }
@@ -206,7 +231,7 @@ namespace Gwen.Control
             }
 
             m_Image.ImageName = textureName;
-            m_Image.SizeToContents( );
+            m_Image.SizeToContents();
             m_Image.SetPosition(Math.Max(Padding.Left, 2), 2);
             m_CenterImage = center;
 
@@ -238,10 +263,10 @@ namespace Gwen.Control
         /// </returns>
         protected override bool OnKeySpace(bool down)
         {
-			return base.OnKeySpace(down);
-			//if (down)
-			//    OnClicked(0, 0);
-			//return true;
+            return base.OnKeySpace(down);
+            //if (down)
+            //    OnClicked(0, 0);
+            //return true;
         }
 
         /// <summary>
@@ -264,7 +289,9 @@ namespace Gwen.Control
                 Align.CenterVertically(m_Image);
 
                 if (m_CenterImage)
+                {
                     Align.CenterHorizontally(m_Image);
+                }
             }
         }
 
@@ -301,7 +328,7 @@ namespace Gwen.Control
         /// <param name="y">Y coordinate.</param>
         protected override void OnMouseDoubleClickedLeft(int x, int y)
         {
-			base.OnMouseDoubleClickedLeft(x, y);
+            base.OnMouseDoubleClickedLeft(x, y);
             OnMouseClickedLeft(x, y, true);
         }
     }

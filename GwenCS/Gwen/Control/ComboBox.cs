@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Gwen.ControlInternal;
+using System;
 using System.Drawing;
-using Gwen.ControlInternal;
 
 namespace Gwen.Control
 {
@@ -21,7 +21,7 @@ namespace Gwen.Control
         /// <summary>
         /// Indicates whether the combo menu is open.
         /// </summary>
-        public bool IsOpen { get { return m_Menu != null && !m_Menu.IsHidden; } }
+        public bool IsOpen => m_Menu != null && !m_Menu.IsHidden;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComboBox"/> class.
@@ -31,10 +31,12 @@ namespace Gwen.Control
             : base(parent)
         {
             SetSize(100, 20);
-            m_Menu = new Menu(this);
-            m_Menu.IsHidden = true;
-            m_Menu.IconMarginDisabled = true;
-            m_Menu.IsTabable = false;
+            m_Menu = new Menu(this)
+            {
+                IsHidden = true,
+                IconMarginDisabled = true,
+                IsTabable = false
+            };
 
             DownArrow arrow = new DownArrow(this);
             m_Button = arrow;
@@ -53,7 +55,7 @@ namespace Gwen.Control
         /// <remarks>Not just String property, because items also have internal names.</remarks>
         public MenuItem SelectedItem
         {
-            get { return m_SelectedItem; }
+            get => m_SelectedItem;
             set
             {
                 if (value != null && value.Parent == m_Menu)
@@ -64,10 +66,7 @@ namespace Gwen.Control
             }
         }
 
-        internal override bool IsMenuComponent
-        {
-            get { return true; }
-        }
+        internal override bool IsMenuComponent => true;
 
         /// <summary>
         /// Adds a new item.
@@ -83,7 +82,9 @@ namespace Gwen.Control
             item.UserData = UserData;
 
             if (m_SelectedItem == null)
+            {
                 OnItemSelected(item, new ItemSelectedEventArgs(null));
+            }
 
             return item;
         }
@@ -123,7 +124,7 @@ namespace Gwen.Control
                 Open();
             }
 
-			base.OnClicked(x, y);
+            base.OnClicked(x, y);
         }
 
         /// <summary>
@@ -132,7 +133,9 @@ namespace Gwen.Control
         public virtual void DeleteAll()
         {
             if (m_Menu != null)
+            {
                 m_Menu.DeleteAll();
+            }
         }
 
         /// <summary>
@@ -145,14 +148,19 @@ namespace Gwen.Control
             {
                 //Convert selected to a menu item
                 MenuItem item = control as MenuItem;
-                if (null == item) return;
+                if (null == item)
+                {
+                    return;
+                }
 
                 m_SelectedItem = item;
                 Text = m_SelectedItem.Text;
                 m_Menu.IsHidden = true;
 
                 if (ItemSelected != null)
+                {
                     ItemSelected.Invoke(this, args);
+                }
 
                 Focus();
                 Invalidate();
@@ -193,7 +201,10 @@ namespace Gwen.Control
         {
             if (!IsDisabled)
             {
-                if (null == m_Menu) return;
+                if (null == m_Menu)
+                {
+                    return;
+                }
 
                 m_Menu.Parent = GetCanvas();
                 m_Menu.IsHidden = false;
@@ -211,7 +222,9 @@ namespace Gwen.Control
         public virtual void Close()
         {
             if (m_Menu == null)
+            {
                 return;
+            }
 
             m_Menu.Hide();
         }
@@ -229,7 +242,9 @@ namespace Gwen.Control
             {
                 var it = m_Menu.Children.FindIndex(x => x == m_SelectedItem);
                 if (it + 1 < m_Menu.Children.Count)
+                {
                     OnItemSelected(this, new ItemSelectedEventArgs(m_Menu.Children[it + 1]));
+                }
             }
             return true;
         }
@@ -247,7 +262,9 @@ namespace Gwen.Control
             {
                 var it = m_Menu.Children.FindLastIndex(x => x == m_SelectedItem);
                 if (it - 1 >= 0)
+                {
                     OnItemSelected(this, new ItemSelectedEventArgs(m_Menu.Children[it - 1]));
+                }
             }
             return true;
         }

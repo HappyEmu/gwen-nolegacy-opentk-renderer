@@ -16,7 +16,7 @@ namespace Gwen.Control
         /// <summary>
         /// Character used in place of actual characters for display.
         /// </summary>
-        public char MaskCharacter { get { return m_MaskCharacter; } set { m_MaskCharacter = value; } }
+        public char MaskCharacter { get => m_MaskCharacter; set => m_MaskCharacter = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBoxPassword"/> class.

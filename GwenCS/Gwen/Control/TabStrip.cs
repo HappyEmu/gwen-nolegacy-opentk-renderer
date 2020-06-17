@@ -1,7 +1,7 @@
-﻿using System;
-using System.Drawing;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
 using Gwen.DragDrop;
+using System;
+using System.Drawing;
 
 namespace Gwen.Control
 {
@@ -16,15 +16,12 @@ namespace Gwen.Control
         /// <summary>
         /// Determines whether it is possible to reorder tabs by mouse dragging.
         /// </summary>
-        public bool AllowReorder { get { return m_AllowReorder; } set { m_AllowReorder = value; } }
+        public bool AllowReorder { get => m_AllowReorder; set => m_AllowReorder = value; }
 
         /// <summary>
         /// Determines whether the control should be clipped to its bounds while rendering.
         /// </summary>
-        protected override bool ShouldClip
-        {
-            get { return false; }
-        }
+        protected override bool ShouldClip => false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabStrip"/> class.
@@ -41,18 +38,29 @@ namespace Gwen.Control
         /// </summary>
         public Pos StripPosition
         {
-            get { return Dock; }
+            get => Dock;
             set
             {
                 Dock = value;
                 if (Dock == Pos.Top)
+                {
                     Padding = new Padding(5, 0, 0, 0);
+                }
+
                 if (Dock == Pos.Left)
+                {
                     Padding = new Padding(0, 5, 0, 0);
+                }
+
                 if (Dock == Pos.Bottom)
+                {
                     Padding = new Padding(5, 0, 0, 0);
+                }
+
                 if (Dock == Pos.Right)
+                {
                     Padding = new Padding(0, 5, 0, 0);
+                }
             }
         }
 
@@ -75,7 +83,7 @@ namespace Gwen.Control
             if (droppedOn != null)
             {
                 Point dropPos = droppedOn.CanvasPosToLocal(new Point(x, y));
-                DragAndDrop.SourceControl.BringNextToControl(droppedOn, dropPos.X > droppedOn.Width/2);
+                DragAndDrop.SourceControl.BringNextToControl(droppedOn, dropPos.X > droppedOn.Width / 2);
             }
             else
             {
@@ -87,10 +95,14 @@ namespace Gwen.Control
         public override bool DragAndDrop_CanAcceptPackage(Package p)
         {
             if (!m_AllowReorder)
+            {
                 return false;
+            }
 
             if (p.Name == "TabButtonMove")
+            {
                 return true;
+            }
 
             return false;
         }
@@ -107,7 +119,10 @@ namespace Gwen.Control
             foreach (var child in Children)
             {
                 TabButton button = child as TabButton;
-                if (null == button) continue;
+                if (null == button)
+                {
+                    continue;
+                }
 
                 button.SizeToContents();
 
@@ -146,10 +161,14 @@ namespace Gwen.Control
             }
 
             if (Dock == Pos.Top || Dock == Pos.Bottom)
+            {
                 SetSize(Width, largestTab.Y);
+            }
 
             if (Dock == Pos.Left || Dock == Pos.Right)
+            {
                 SetSize(largestTab.X, Height);
+            }
 
             base.Layout(skin);
         }
@@ -161,8 +180,10 @@ namespace Gwen.Control
                 throw new InvalidOperationException("ERROR! TabStrip::DragAndDrop_HoverEnter");
             }
 
-            m_TabDragControl = new Highlight(this);
-            m_TabDragControl.MouseInputEnabled = false;
+            m_TabDragControl = new Highlight(this)
+            {
+                MouseInputEnabled = false
+            };
             m_TabDragControl.SetSize(3, Height);
         }
 
@@ -188,7 +209,7 @@ namespace Gwen.Control
                 m_TabDragControl.BringToFront();
                 m_TabDragControl.SetPosition(droppedOn.X - 1, 0);
 
-                if (dropPos.X > droppedOn.Width/2)
+                if (dropPos.X > droppedOn.Width / 2)
                 {
                     m_TabDragControl.MoveBy(droppedOn.Width - 1, 0);
                 }

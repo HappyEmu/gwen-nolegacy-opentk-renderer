@@ -21,19 +21,23 @@ namespace Gwen.Control
         /// <param name="parent">Parent control.</param>
         /// <param name="text">Message to display.</param>
         /// <param name="caption">Window caption.</param>
-        public MessageBox(Base parent, string text, string caption = "") 
+        public MessageBox(Base parent, string text, string caption = "")
             : base(parent, caption, true)
         {
             DeleteOnClose = true;
 
-            m_Label = new Label(m_InnerPanel);
-            m_Label.Text = text;
-            m_Label.Margin = Margin.Five;
-            m_Label.Dock = Pos.Top;
-            m_Label.Alignment = Pos.Center;
+            m_Label = new Label(m_InnerPanel)
+            {
+                Text = text,
+                Margin = Margin.Five,
+                Dock = Pos.Top,
+                Alignment = Pos.Center
+            };
 
-            m_Button = new Button(m_InnerPanel);
-            m_Button.Text = "OK"; // todo: parametrize buttons
+            m_Button = new Button(m_InnerPanel)
+            {
+                Text = "OK" // todo: parametrize buttons
+            };
             m_Button.Clicked += CloseButtonPressed;
             m_Button.Clicked += DismissedHandler;
             m_Button.Margin = Margin.Five;
@@ -42,10 +46,12 @@ namespace Gwen.Control
             Align.Center(this);
         }
 
-		private void DismissedHandler(Base control, EventArgs args)
+        private void DismissedHandler(Base control, EventArgs args)
         {
             if (Dismissed != null)
+            {
                 Dismissed.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>

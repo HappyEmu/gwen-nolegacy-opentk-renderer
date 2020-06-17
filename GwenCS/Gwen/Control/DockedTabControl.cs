@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gwen.Control
+﻿namespace Gwen.Control
 {
     /// <summary>
     /// Docked tab control.
@@ -12,7 +10,7 @@ namespace Gwen.Control
         /// <summary>
         /// Determines whether the title bar is visible.
         /// </summary>
-        public bool TitleBarVisible { get { return !m_TitleBar.IsHidden; } set { m_TitleBar.IsHidden = !value; } }
+        public bool TitleBarVisible { get => !m_TitleBar.IsHidden; set => m_TitleBar.IsHidden = !value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DockedTabControl"/> class.
@@ -23,9 +21,11 @@ namespace Gwen.Control
         {
             Dock = Pos.Fill;
 
-            m_TitleBar = new TabTitleBar(this);
-            m_TitleBar.Dock = Pos.Top;
-            m_TitleBar.IsHidden = true;
+            m_TitleBar = new TabTitleBar(this)
+            {
+                Dock = Pos.Top,
+                IsHidden = true
+            };
         }
 
         /// <summary>
@@ -42,7 +42,9 @@ namespace Gwen.Control
         private void UpdateTitleBar()
         {
             if (CurrentButton == null)
+            {
                 return;
+            }
 
             m_TitleBar.UpdateFromTab(CurrentButton);
         }
@@ -72,7 +74,10 @@ namespace Gwen.Control
             {
                 TabButton button = child as TabButton;
                 if (button == null)
+                {
                     continue;
+                }
+
                 target.AddPage(button);
             }
             Invalidate();

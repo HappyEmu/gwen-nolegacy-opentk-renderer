@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
+using System;
 
 namespace Gwen.Control
 {
@@ -21,28 +21,22 @@ namespace Gwen.Control
         /// <summary>
         /// Indicates whether the property value is being edited.
         /// </summary>
-        public bool IsEditing { get { return m_Property != null && m_Property.IsEditing; } }
+        public bool IsEditing => m_Property != null && m_Property.IsEditing;
 
         /// <summary>
         /// Property value.
         /// </summary>
-        public string Value { get { return m_Property.Value; } set { m_Property.Value = value; } }
+        public string Value { get => m_Property.Value; set => m_Property.Value = value; }
 
         /// <summary>
         /// Indicates whether the control is hovered by mouse pointer.
         /// </summary>
-        public override bool IsHovered
-        {
-            get
-            {
-                return base.IsHovered || (m_Property != null && m_Property.IsHovered);
-            }
-        }
+        public override bool IsHovered => base.IsHovered || (m_Property != null && m_Property.IsHovered);
 
         /// <summary>
         /// Property name.
         /// </summary>
-        public string Label { get { return m_Label.Text; } set { m_Label.Text = value; } }
+        public string Label { get => m_Label.Text; set => m_Label.Text = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyRow"/> class.
@@ -52,10 +46,12 @@ namespace Gwen.Control
         public PropertyRow(Base parent, Property.Base prop)
             : base(parent)
         {
-            PropertyRowLabel label = new PropertyRowLabel(this);
-            label.Dock = Pos.Left;
-            label.Alignment = Pos.Left | Pos.Top;
-            label.Margin = new Margin(2, 2, 0, 0);
+            PropertyRowLabel label = new PropertyRowLabel(this)
+            {
+                Dock = Pos.Left,
+                Alignment = Pos.Left | Pos.Top,
+                Margin = new Margin(2, 2, 0, 0)
+            };
             m_Label = label;
 
             m_Property = prop;
@@ -94,7 +90,10 @@ namespace Gwen.Control
         protected override void Layout(Skin.Base skin)
         {
             Properties parent = Parent as Properties;
-            if (null == parent) return;
+            if (null == parent)
+            {
+                return;
+            }
 
             m_Label.Width = parent.SplitWidth;
 
@@ -107,7 +106,9 @@ namespace Gwen.Control
         protected virtual void OnValueChanged(Base control, EventArgs args)
         {
             if (ValueChanged != null)
-				ValueChanged.Invoke(this, EventArgs.Empty);
+            {
+                ValueChanged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void OnEditingChanged()

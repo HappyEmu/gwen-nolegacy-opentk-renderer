@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -62,8 +62,10 @@ namespace Gwen.UnitTest
             }
 
             //Status bar to hold unit testing buttons
-            Control.StatusBar pStatus = new Control.StatusBar(this);
-            pStatus.Dock = Pos.Bottom;
+            Control.StatusBar pStatus = new Control.StatusBar(this)
+            {
+                Dock = Pos.Bottom
+            };
 
             {
                 Control.Button pButton = new Control.Button(pStatus);
@@ -94,33 +96,35 @@ namespace Gwen.UnitTest
             }
         }
 
-		void ZoomTest(Base control, EventArgs args)
+        private void ZoomTest(Base control, EventArgs args)
         {
             m_Splitter.Zoom(m_CurZoom);
             m_CurZoom++;
             if (m_CurZoom == 4)
+            {
                 m_CurZoom = 0;
+            }
         }
 
-		void UnZoomTest(Base control, EventArgs args)
+        private void UnZoomTest(Base control, EventArgs args)
         {
             m_Splitter.UnZoom();
         }
 
-		void CenterPanels(Base control, EventArgs args)
+        private void CenterPanels(Base control, EventArgs args)
         {
             m_Splitter.CenterPanels();
             m_Splitter.UnZoom();
         }
 
-		void ToggleSplitters(Base control, EventArgs args)
+        private void ToggleSplitters(Base control, EventArgs args)
         {
             m_Splitter.SplittersVisible = !m_Splitter.SplittersVisible;
         }
 
         protected override void Layout(Skin.Base skin)
         {
-            
+
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using Gwen.ControlInternal;
+﻿using Gwen.ControlInternal;
 using Gwen.Input;
+using System;
 
 namespace Gwen.Control.Property
 {
@@ -17,10 +17,12 @@ namespace Gwen.Control.Property
         /// <param name="parent">Parent control.</param>
         public Color(Control.Base parent) : base(parent)
         {
-            m_Button = new ColorButton(m_TextBox);
-            m_Button.Dock = Pos.Right;
-            m_Button.Width = 20;
-            m_Button.Margin = new Margin(1, 1, 1, 2);
+            m_Button = new ColorButton(m_TextBox)
+            {
+                Dock = Pos.Right,
+                Width = 20,
+                Margin = new Margin(1, 1, 1, 2)
+            };
             m_Button.Clicked += OnButtonPressed;
         }
 
@@ -35,8 +37,10 @@ namespace Gwen.Control.Property
             menu.DeleteOnClose = true;
             menu.IconMarginDisabled = true;
 
-            HSVColorPicker picker = new HSVColorPicker(menu);
-            picker.Dock = Pos.Fill;
+            HSVColorPicker picker = new HSVColorPicker(menu)
+            {
+                Dock = Pos.Fill
+            };
             picker.SetSize(256, 128);
 
             string[] split = m_TextBox.Text.Split(' ');
@@ -63,8 +67,8 @@ namespace Gwen.Control.Property
         /// </summary>
         public override string Value
         {
-            get { return m_TextBox.Text; }
-            set { base.Value = value; }
+            get => m_TextBox.Text;
+            set => base.Value = value;
         }
 
         /// <summary>
@@ -80,10 +84,7 @@ namespace Gwen.Control.Property
         /// <summary>
         /// Indicates whether the property value is being edited.
         /// </summary>
-        public override bool IsEditing
-        {
-            get { return m_TextBox == InputHandler.KeyboardFocus; }
-        }
+        public override bool IsEditing => m_TextBox == InputHandler.KeyboardFocus;
 
         private void SetTextFromColor(System.Drawing.Color color)
         {

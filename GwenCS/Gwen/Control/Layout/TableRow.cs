@@ -28,17 +28,17 @@ namespace Gwen.Control.Layout
         /// <summary>
         /// Column count.
         /// </summary>
-        public int ColumnCount { get { return m_ColumnCount; } set { SetColumnCount(value); } }
+        public int ColumnCount { get => m_ColumnCount; set => SetColumnCount(value); }
 
         /// <summary>
         /// Indicates whether the row is even or odd (used for alternate coloring).
         /// </summary>
-        public bool EvenRow { get { return m_EvenRow; } set { m_EvenRow = value; } }
+        public bool EvenRow { get => m_EvenRow; set => m_EvenRow = value; }
 
         /// <summary>
         /// Text of the first column.
         /// </summary>
-        public string Text { get { return GetText(0); } set { SetCellText(0, value); } }
+        public string Text { get => GetText(0); set => SetCellText(0, value); }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableRow"/> class.
@@ -58,10 +58,15 @@ namespace Gwen.Control.Layout
         /// <param name="columnCount">Number of columns.</param>
         protected void SetColumnCount(int columnCount)
         {
-            if (columnCount == m_ColumnCount) return;
+            if (columnCount == m_ColumnCount)
+            {
+                return;
+            }
 
             if (columnCount >= MaxColumns)
+            {
                 throw new ArgumentException("Invalid column count", "columnCount");
+            }
 
             for (int i = 0; i < MaxColumns; i++)
             {
@@ -69,9 +74,11 @@ namespace Gwen.Control.Layout
                 {
                     if (null == m_Columns[i])
                     {
-                        m_Columns[i] = new Label(this);
-                        m_Columns[i].Padding = Padding.Three;
-                        m_Columns[i].Margin = new Margin(0, 0, 2, 0); // to separate them slightly
+                        m_Columns[i] = new Label(this)
+                        {
+                            Padding = Padding.Three,
+                            Margin = new Margin(0, 0, 2, 0) // to separate them slightly
+                        };
                         if (i == columnCount - 1)
                         {
                             // last column fills remaining space
@@ -100,10 +107,15 @@ namespace Gwen.Control.Layout
         /// <param name="width">Column width.</param>
         public void SetColumnWidth(int column, int width)
         {
-            if (null == m_Columns[column]) 
+            if (null == m_Columns[column])
+            {
                 return;
-            if (m_Columns[column].Width == width) 
+            }
+
+            if (m_Columns[column].Width == width)
+            {
                 return;
+            }
 
             m_Columns[column].Width = width;
         }
@@ -115,8 +127,10 @@ namespace Gwen.Control.Layout
         /// <param name="text">Text to set.</param>
         public void SetCellText(int column, string text)
         {
-            if (null == m_Columns[column]) 
+            if (null == m_Columns[column])
+            {
                 return;
+            }
 
             m_Columns[column].Text = text;
         }
@@ -129,8 +143,10 @@ namespace Gwen.Control.Layout
         /// <param name="enableMouseInput">Determines whether mouse input should be enabled for the cell.</param>
         public void SetCellContents(int column, Base control, bool enableMouseInput = false)
         {
-            if (null == m_Columns[column]) 
+            if (null == m_Columns[column])
+            {
                 return;
+            }
 
             control.Parent = m_Columns[column];
             m_Columns[column].MouseInputEnabled = enableMouseInput;
@@ -149,7 +165,9 @@ namespace Gwen.Control.Layout
         protected virtual void OnRowSelected()
         {
             if (Selected != null)
+            {
                 Selected.Invoke(this, new ItemSelectedEventArgs(this));
+            }
         }
 
         /// <summary>
@@ -162,8 +180,10 @@ namespace Gwen.Control.Layout
 
             for (int i = 0; i < m_ColumnCount; i++)
             {
-                if (null == m_Columns[i]) 
+                if (null == m_Columns[i])
+                {
                     continue;
+                }
 
                 // Note, more than 1 child here, because the 
                 // label has a child built in ( The Text )
@@ -175,7 +195,7 @@ namespace Gwen.Control.Layout
                 {
                     m_Columns[i].SizeToContents();
                 }
-    
+
                 //if (i == m_ColumnCount - 1) // last column
                 //    m_Columns[i].Width = Parent.Width - width; // fill if not autosized
 
@@ -194,7 +214,11 @@ namespace Gwen.Control.Layout
         {
             for (int i = 0; i < m_ColumnCount; i++)
             {
-                if (null == m_Columns[i]) continue;
+                if (null == m_Columns[i])
+                {
+                    continue;
+                }
+
                 m_Columns[i].TextColor = color;
             }
         }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gwen.Control.Property
+﻿namespace Gwen.Control.Property
 {
     /// <summary>
     /// Checkable property.
@@ -16,8 +14,10 @@ namespace Gwen.Control.Property
         public Check(Control.Base parent)
             : base(parent)
         {
-            m_CheckBox = new Control.CheckBox(this);
-            m_CheckBox.ShouldDrawBackground = false;
+            m_CheckBox = new Control.CheckBox(this)
+            {
+                ShouldDrawBackground = false
+            };
             m_CheckBox.CheckChanged += OnValueChanged;
             m_CheckBox.IsTabable = true;
             m_CheckBox.KeyboardInputEnabled = true;
@@ -31,8 +31,8 @@ namespace Gwen.Control.Property
         /// </summary>
         public override string Value
         {
-            get { return m_CheckBox.IsChecked ? "1" : "0"; }
-            set { base.Value = value; }
+            get => m_CheckBox.IsChecked ? "1" : "0";
+            set => base.Value = value;
         }
 
         /// <summary>
@@ -55,17 +55,11 @@ namespace Gwen.Control.Property
         /// <summary>
         /// Indicates whether the property value is being edited.
         /// </summary>
-        public override bool IsEditing
-        {
-            get { return m_CheckBox.HasFocus; }
-        }
+        public override bool IsEditing => m_CheckBox.HasFocus;
 
         /// <summary>
         /// Indicates whether the control is hovered by mouse pointer.
         /// </summary>
-        public override bool IsHovered
-        {
-            get { return base.IsHovered || m_CheckBox.IsHovered; }
-        }
+        public override bool IsHovered => base.IsHovered || m_CheckBox.IsHovered;
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Drawing;
-using Gwen.Control;
+﻿using Gwen.Control;
 using Gwen.Input;
+using System;
+using System.Drawing;
 
 namespace Gwen.ControlInternal
 {
@@ -14,17 +14,17 @@ namespace Gwen.ControlInternal
         protected Point m_HoldPos;
         protected Base m_Target;
 
-        internal Base Target { get { return m_Target; } set { m_Target = value; } }
+        internal Base Target { get => m_Target; set => m_Target = value; }
 
         /// <summary>
         /// Indicates if the control is being dragged.
         /// </summary>
-        public bool IsHeld { get { return m_Held; } }
+        public bool IsHeld => m_Held;
 
         /// <summary>
         /// Event invoked when the control position has been changed.
         /// </summary>
-		public event GwenEventHandler<EventArgs> Dragged;
+        public event GwenEventHandler<EventArgs> Dragged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dragger"/> class.
@@ -44,7 +44,10 @@ namespace Gwen.ControlInternal
         /// <param name="down">If set to <c>true</c> mouse button is down.</param>
         protected override void OnMouseClickedLeft(int x, int y, bool down)
         {
-            if (null == m_Target) return;
+            if (null == m_Target)
+            {
+                return;
+            }
 
             if (down)
             {
@@ -69,19 +72,30 @@ namespace Gwen.ControlInternal
         /// <param name="dy">Y change.</param>
         protected override void OnMouseMoved(int x, int y, int dx, int dy)
         {
-            if (null == m_Target) return;
-            if (!m_Held) return;
+            if (null == m_Target)
+            {
+                return;
+            }
+
+            if (!m_Held)
+            {
+                return;
+            }
 
             Point p = new Point(x - m_HoldPos.X, y - m_HoldPos.Y);
 
             // Translate to parent
             if (m_Target.Parent != null)
+            {
                 p = m_Target.Parent.CanvasPosToLocal(p);
+            }
 
             //m_Target->SetPosition( p.x, p.y );
             m_Target.MoveTo(p.X, p.Y);
             if (Dragged != null)
-				Dragged.Invoke(this, EventArgs.Empty);
+            {
+                Dragged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -90,7 +104,7 @@ namespace Gwen.ControlInternal
         /// <param name="skin">Skin to use.</param>
         protected override void Render(Skin.Base skin)
         {
-            
+
         }
     }
 }

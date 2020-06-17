@@ -9,26 +9,26 @@ namespace Gwen.Control
     public class RadioButtonGroup : GroupBox
     {
         private LabeledRadioButton m_Selected;
-        
+
         /// <summary>
         /// Selected radio button.
         /// </summary>
-        public LabeledRadioButton Selected { get { return m_Selected; } }
+        public LabeledRadioButton Selected => m_Selected;
 
         /// <summary>
         /// Internal name of the selected radio button.
         /// </summary>
-        public string SelectedName { get { return m_Selected.Name; } }
+        public string SelectedName => m_Selected.Name;
 
         /// <summary>
         /// Text of the selected radio button.
         /// </summary>
-        public string SelectedLabel { get { return m_Selected.Text; } }
+        public string SelectedLabel => m_Selected.Text;
 
         /// <summary>
         /// Index of the selected radio button.
         /// </summary>
-        public int SelectedIndex { get { return Children.IndexOf(m_Selected); } }
+        public int SelectedIndex => Children.IndexOf(m_Selected);
 
         /// <summary>
         /// Invoked when the selected option has changed.
@@ -66,9 +66,11 @@ namespace Gwen.Control
         /// <returns>Newly created control.</returns>
         public virtual LabeledRadioButton AddOption(string text, string optionName)
         {
-            LabeledRadioButton lrb = new LabeledRadioButton(this);
-            lrb.Name = optionName;
-            lrb.Text = text;
+            LabeledRadioButton lrb = new LabeledRadioButton(this)
+            {
+                Name = optionName,
+                Text = text
+            };
             lrb.RadioButton.Checked += OnRadioClicked;
             lrb.Dock = Pos.Top;
             lrb.Margin = new Margin(0, 0, 0, 1); // 1 bottom
@@ -89,9 +91,13 @@ namespace Gwen.Control
             foreach (LabeledRadioButton rb in Children.OfType<LabeledRadioButton>()) // todo: optimize
             {
                 if (rb.RadioButton == @checked)
+                {
                     m_Selected = rb;
+                }
                 else
+                {
                     rb.RadioButton.IsChecked = false;
+                }
             }
 
             OnChanged(m_Selected);
@@ -118,7 +124,9 @@ namespace Gwen.Control
         protected virtual void OnChanged(Base NewTarget)
         {
             if (SelectionChanged != null)
+            {
                 SelectionChanged.Invoke(this, new ItemSelectedEventArgs(NewTarget));
+            }
         }
 
         /// <summary>
@@ -128,9 +136,9 @@ namespace Gwen.Control
         public void SetSelection(int index)
         {
             if (index < 0 || index >= Children.Count)
+            {
                 return;
-
-            (Children[index] as LabeledRadioButton).RadioButton.Press();
+            } (Children[index] as LabeledRadioButton).RadioButton.Press();
         }
     }
 }

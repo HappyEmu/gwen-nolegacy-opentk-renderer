@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Input;
+﻿using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -14,7 +13,7 @@ namespace Gwen.Control
         /// <summary>
         /// Label text.
         /// </summary>
-        public string Text { get { return m_Label.Text; } set { m_Label.Text = value; } }
+        public string Text { get => m_Label.Text; set => m_Label.Text = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LabeledRadioButton"/> class.
@@ -23,19 +22,23 @@ namespace Gwen.Control
         public LabeledRadioButton(Base parent)
             : base(parent)
         {
-			MouseInputEnabled = true;
+            MouseInputEnabled = true;
             SetSize(100, 20);
 
-            m_RadioButton = new RadioButton(this);
-            //m_RadioButton.Dock = Pos.Left; // no docking, it causes resizing
-            //m_RadioButton.Margin = new Margin(0, 2, 2, 2);
-            m_RadioButton.IsTabable = false;
-            m_RadioButton.KeyboardInputEnabled = false;
+            m_RadioButton = new RadioButton(this)
+            {
+                //m_RadioButton.Dock = Pos.Left; // no docking, it causes resizing
+                //m_RadioButton.Margin = new Margin(0, 2, 2, 2);
+                IsTabable = false,
+                KeyboardInputEnabled = false
+            };
 
-            m_Label = new Label(this);
-            m_Label.Alignment = Pos.CenterV | Pos.Left;
-            m_Label.Text = "Radio Button";
-			m_Label.Clicked += delegate(Base control, ClickedEventArgs args) { m_RadioButton.Press(control); };
+            m_Label = new Label(this)
+            {
+                Alignment = Pos.CenterV | Pos.Left,
+                Text = "Radio Button"
+            };
+            m_Label.Clicked += delegate (Base control, ClickedEventArgs args) { m_RadioButton.Press(control); };
             m_Label.IsTabable = false;
             m_Label.KeyboardInputEnabled = false;
         }
@@ -45,7 +48,7 @@ namespace Gwen.Control
             // ugly stuff because we don't have anchoring without docking (docking resizes children)
             if (m_Label.Height > m_RadioButton.Height) // usually radio is smaller than label so it gets repositioned to avoid clipping with negative Y
             {
-                m_RadioButton.Y = (m_Label.Height - m_RadioButton.Height)/2;
+                m_RadioButton.Y = (m_Label.Height - m_RadioButton.Height) / 2;
             }
             Align.PlaceRightBottom(m_Label, m_RadioButton);
             SizeToChildren();
@@ -58,14 +61,21 @@ namespace Gwen.Control
         /// <param name="skin">Skin to use.</param>
         protected override void RenderFocus(Skin.Base skin)
         {
-            if (InputHandler.KeyboardFocus != this) return;
-            if (!IsTabable) return;
+            if (InputHandler.KeyboardFocus != this)
+            {
+                return;
+            }
+
+            if (!IsTabable)
+            {
+                return;
+            }
 
             skin.DrawKeyboardHighlight(this, RenderBounds, 0);
         }
 
         // todo: would be nice to remove that
-        internal RadioButton RadioButton { get { return m_RadioButton; } }
+        internal RadioButton RadioButton => m_RadioButton;
 
         /// <summary>
         /// Handler for Space keyboard event.
@@ -77,7 +87,10 @@ namespace Gwen.Control
         protected override bool OnKeySpace(bool down)
         {
             if (down)
+            {
                 m_RadioButton.IsChecked = !m_RadioButton.IsChecked;
+            }
+
             return true;
         }
 

@@ -1,6 +1,6 @@
-﻿using System;
-using Gwen.Control.Layout;
+﻿using Gwen.Control.Layout;
 using Gwen.ControlInternal;
+using System;
 
 namespace Gwen.Control
 {
@@ -19,12 +19,12 @@ namespace Gwen.Control
         /// <summary>
         /// Minimum value.
         /// </summary>
-        public int Min { get { return m_Min; } set { m_Min = value; } }
+        public int Min { get => m_Min; set => m_Min = value; }
 
         /// <summary>
         /// Maximum value.
         /// </summary>
-        public int Max { get { return m_Max; } set { m_Max = value; } }
+        public int Max { get => m_Max; set => m_Max = value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NumericUpDown"/> class.
@@ -35,8 +35,10 @@ namespace Gwen.Control
         {
             SetSize(100, 20);
 
-            m_Splitter = new Splitter(this);
-            m_Splitter.Dock = Pos.Right;
+            m_Splitter = new Splitter(this)
+            {
+                Dock = Pos.Right
+            };
             m_Splitter.SetSize(13, 13);
 
             m_Up = new UpDownButton_Up(m_Splitter);
@@ -70,7 +72,11 @@ namespace Gwen.Control
         /// </returns>
         protected override bool OnKeyUp(bool down)
         {
-            if (down) OnButtonUp(null, EventArgs.Empty);
+            if (down)
+            {
+                OnButtonUp(null, EventArgs.Empty);
+            }
+
             return true;
         }
 
@@ -83,7 +89,11 @@ namespace Gwen.Control
         /// </returns>
         protected override bool OnKeyDown(bool down)
         {
-            if (down) OnButtonDown(null, new ClickedEventArgs(0, 0, true));
+            if (down)
+            {
+                OnButtonDown(null, new ClickedEventArgs(0, 0, true));
+            }
+
             return true;
         }
 
@@ -112,11 +122,21 @@ namespace Gwen.Control
         /// <returns>True if the text is allowed.</returns>
         protected override bool IsTextAllowed(string str)
         {
-            float d;
-            if (!float.TryParse(str, out d))
+            if (!float.TryParse(str, out float d))
+            {
                 return false;
-            if (d < m_Min) return false;
-            if (d > m_Max) return false;
+            }
+
+            if (d < m_Min)
+            {
+                return false;
+            }
+
+            if (d > m_Max)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -125,15 +145,23 @@ namespace Gwen.Control
         /// </summary>
         public override float Value
         {
-            get
-            {
-                return base.Value;
-            }
+            get => base.Value;
             set
             {
-                if (value < m_Min) value = m_Min;
-                if (value > m_Max) value = m_Max;
-                if (value == m_Value) return;
+                if (value < m_Min)
+                {
+                    value = m_Min;
+                }
+
+                if (value > m_Max)
+                {
+                    value = m_Max;
+                }
+
+                if (value == m_Value)
+                {
+                    return;
+                }
 
                 base.Value = value;
             }
@@ -146,7 +174,9 @@ namespace Gwen.Control
         {
             base.OnTextChanged();
             if (ValueChanged != null)
+            {
                 ValueChanged.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

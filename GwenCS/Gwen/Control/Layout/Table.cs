@@ -20,24 +20,24 @@ namespace Gwen.Control.Layout
         /// <summary>
         /// Column count (default 1).
         /// </summary>
-        public int ColumnCount { get { return m_ColumnCount; } set { SetColumnCount(value); Invalidate(); } }
+        public int ColumnCount { get => m_ColumnCount; set { SetColumnCount(value); Invalidate(); } }
 
         /// <summary>
         /// Row count.
         /// </summary>
-        public int RowCount { get { return Children.Count; } }
+        public int RowCount => Children.Count;
 
         /// <summary>
         /// Gets or sets default height for new table rows.
         /// </summary>
-        public int DefaultRowHeight { get { return m_DefaultRowHeight; } set { m_DefaultRowHeight = value; } }
+        public int DefaultRowHeight { get => m_DefaultRowHeight; set => m_DefaultRowHeight = value; }
 
         /// <summary>
         /// Returns specific row of the table.
         /// </summary>
         /// <param name="index">Row index.</param>
         /// <returns>Row at the specified index.</returns>
-        public TableRow this[int index] { get { return Children[index] as TableRow; } }
+        public TableRow this[int index] => Children[index] as TableRow;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Table"/> class.
@@ -64,7 +64,11 @@ namespace Gwen.Control.Layout
         /// <param name="count">Number of columns.</param>
         public void SetColumnCount(int count)
         {
-            if (m_ColumnCount == count) return;
+            if (m_ColumnCount == count)
+            {
+                return;
+            }
+
             foreach (TableRow row in Children.OfType<TableRow>())
             {
                 row.ColumnCount = count;
@@ -80,7 +84,11 @@ namespace Gwen.Control.Layout
         /// <param name="width">Column width.</param>
         public void SetColumnWidth(int column, int width)
         {
-            if (m_ColumnWidth[column] == width) return;
+            if (m_ColumnWidth[column] == width)
+            {
+                return;
+            }
+
             m_ColumnWidth[column] = width;
             Invalidate();
         }
@@ -101,10 +109,12 @@ namespace Gwen.Control.Layout
         /// <returns>Newly created row.</returns>
         public TableRow AddRow()
         {
-            TableRow row = new TableRow(this);
-            row.ColumnCount = m_ColumnCount;
-            row.Height = m_DefaultRowHeight;
-            row.Dock = Pos.Top;
+            TableRow row = new TableRow(this)
+            {
+                ColumnCount = m_ColumnCount,
+                Height = m_DefaultRowHeight,
+                Dock = Pos.Top
+            };
             return row;
         }
 
@@ -157,7 +167,9 @@ namespace Gwen.Control.Layout
         public void RemoveAll()
         {
             while (RowCount > 0)
+            {
                 RemoveRow(0);
+            }
         }
 
         /// <summary>
@@ -225,9 +237,13 @@ namespace Gwen.Control.Layout
                     if (null != cell)
                     {
                         if (i < ColumnCount - 1 || m_MaxWidth == 0)
+                        {
                             m_ColumnWidth[i] = Math.Max(m_ColumnWidth[i], cell.Width + cell.Margin.Left + cell.Margin.Right);
+                        }
                         else
+                        {
                             m_ColumnWidth[i] = m_MaxWidth - width; // last cell - fill
+                        }
                     }
                 }
                 height += row.Height;

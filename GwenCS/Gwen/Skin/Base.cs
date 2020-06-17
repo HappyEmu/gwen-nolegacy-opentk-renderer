@@ -21,7 +21,7 @@ namespace Gwen.Skin
         /// </summary>
         public Font DefaultFont
         {
-            get { return m_DefaultFont; }
+            get => m_DefaultFont;
             set
             {
                 m_DefaultFont.Dispose();
@@ -32,7 +32,7 @@ namespace Gwen.Skin
         /// <summary>
         /// Renderer used.
         /// </summary>
-        public Renderer.Base Renderer { get { return m_Renderer; } }
+        public Renderer.Base Renderer => m_Renderer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Base"/> class.
@@ -68,12 +68,18 @@ namespace Gwen.Skin
         protected virtual void ReleaseFont(Font font)
         {
             if (font == null)
+            {
                 return;
+            }
+
             if (m_Renderer == null)
+            {
                 return;
+            }
+
             m_Renderer.FreeFont(font);
         }
-        
+
         /// <summary>
         /// Sets the default text font.
         /// </summary>
@@ -144,9 +150,14 @@ namespace Gwen.Skin
             Renderer.DrawColor = Colors.Tree.Lines;
 
             if (!isRoot)
+            {
                 Renderer.DrawFilledRect(new Rectangle(8, halfWay, 16 - 9, 1));
+            }
 
-            if (!open) return;
+            if (!open)
+            {
+                return;
+            }
 
             Renderer.DrawFilledRect(new Rectangle(14 + 7, labelHeight + 1, 1, lastBranch + halfWay - labelHeight));
         }
@@ -156,20 +167,32 @@ namespace Gwen.Skin
             Rectangle rect = control.RenderBounds;
 
             if (bBeingEdited)
+            {
                 m_Renderer.DrawColor = Colors.Properties.Column_Selected;
+            }
             else if (hovered)
+            {
                 m_Renderer.DrawColor = Colors.Properties.Column_Hover;
+            }
             else
+            {
                 m_Renderer.DrawColor = Colors.Properties.Column_Normal;
+            }
 
             m_Renderer.DrawFilledRect(new Rectangle(0, rect.Y, iWidth, rect.Height));
 
             if (bBeingEdited)
+            {
                 m_Renderer.DrawColor = Colors.Properties.Line_Selected;
+            }
             else if (hovered)
+            {
                 m_Renderer.DrawColor = Colors.Properties.Line_Hover;
+            }
             else
+            {
                 m_Renderer.DrawColor = Colors.Properties.Line_Normal;
+            }
 
             m_Renderer.DrawFilledRect(new Rectangle(iWidth, rect.Y, 1, rect.Height));
 
@@ -194,7 +217,7 @@ namespace Gwen.Skin
             m_Renderer.DrawFilledRect(new Rectangle(rect.X, rect.Y, BorderLeft, rect.Height));
             m_Renderer.DrawFilledRect(new Rectangle(rect.X + BorderLeft, rect.Y, rect.Width - BorderLeft, BorderTop));
         }
-#endregion
+        #endregion
 
         #region Symbols for Simple skin
         /*
@@ -204,7 +227,7 @@ namespace Gwen.Skin
         use the marlett font to draw these.. but since that's a Windows font it wasn't a very
         good cross platform solution.
         */
-        
+
         public virtual void DrawArrowDown(Rectangle rect)
         {
             float x = (rect.Width / 5.0f);

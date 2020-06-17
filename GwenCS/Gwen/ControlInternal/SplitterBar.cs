@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -26,7 +25,9 @@ namespace Gwen.ControlInternal
         protected override void Render(Skin.Base skin)
         {
             if (ShouldDrawBackground)
+            {
                 skin.DrawButton(this, true, false, IsDisabled);
+            }
         }
 
         /// <summary>

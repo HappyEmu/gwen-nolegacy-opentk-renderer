@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Gwen.Input;
+using System;
 using System.Drawing;
-using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -39,7 +39,10 @@ namespace Gwen.Control
         public override void Dispose()
         {
             if (m_Texture != null)
+            {
                 m_Texture.Dispose();
+            }
+
             base.Dispose();
         }
 
@@ -56,10 +59,7 @@ namespace Gwen.Control
         /// <summary>
         /// Selected color.
         /// </summary>
-        public Color SelectedColor
-        {
-            get { return GetColorAt(m_CursorPos.X, m_CursorPos.Y); }
-        }
+        public Color SelectedColor => GetColorAt(m_CursorPos.X, m_CursorPos.Y);
 
         /// <summary>
         /// Sets the selected color.
@@ -79,7 +79,9 @@ namespace Gwen.Control
             Invalidate();
 
             if (ColorChanged != null)
-				ColorChanged.Invoke(this, EventArgs.Empty);
+            {
+                ColorChanged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -96,17 +98,29 @@ namespace Gwen.Control
                 m_CursorPos = CanvasPosToLocal(new Point(x, y));
                 //Do we have clamp?
                 if (m_CursorPos.X < 0)
+                {
                     m_CursorPos.X = 0;
+                }
+
                 if (m_CursorPos.X > Width)
+                {
                     m_CursorPos.X = Width;
+                }
 
                 if (m_CursorPos.Y < 0)
+                {
                     m_CursorPos.Y = 0;
+                }
+
                 if (m_CursorPos.Y > Height)
+                {
                     m_CursorPos.Y = Height;
+                }
 
                 if (ColorChanged != null)
+                {
                     ColorChanged.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -118,12 +132,16 @@ namespace Gwen.Control
         /// <param name="down">If set to <c>true</c> mouse button is down.</param>
         protected override void OnMouseClickedLeft(int x, int y, bool down)
         {
-			base.OnMouseClickedLeft(x, y, down);
+            base.OnMouseClickedLeft(x, y, down);
             m_Depressed = down;
             if (down)
+            {
                 InputHandler.MouseFocus = this;
+            }
             else
+            {
                 InputHandler.MouseFocus = null;
+            }
 
             OnMouseMoved(x, y, 0, 0);
         }
@@ -165,23 +183,25 @@ namespace Gwen.Control
         {
             if (m_Texture == null)
             {
-                byte[] pixelData = new byte[Width*Height*4];
+                byte[] pixelData = new byte[Width * Height * 4];
 
                 for (int x = 0; x < Width; x++)
                 {
                     for (int y = 0; y < Height; y++)
                     {
                         Color c = GetColorAt(x, y);
-                        pixelData[4*(x + y*Width)] = c.R;
-                        pixelData[4*(x + y*Width) + 1] = c.G;
-                        pixelData[4*(x + y*Width) + 2] = c.B;
-                        pixelData[4*(x + y*Width) + 3] = c.A;
+                        pixelData[4 * (x + y * Width)] = c.R;
+                        pixelData[4 * (x + y * Width) + 1] = c.G;
+                        pixelData[4 * (x + y * Width) + 2] = c.B;
+                        pixelData[4 * (x + y * Width) + 3] = c.A;
                     }
                 }
 
-                m_Texture = new Texture(skin.Renderer);
-                m_Texture.Width = Width;
-                m_Texture.Height = Height;
+                m_Texture = new Texture(skin.Renderer)
+                {
+                    Width = Width,
+                    Height = Height
+                };
                 m_Texture.LoadRaw(Width, Height, pixelData);
             }
 
@@ -193,10 +213,14 @@ namespace Gwen.Control
             skin.Renderer.DrawLinedRect(RenderBounds);
 
             Color selected = SelectedColor;
-            if ((selected.R + selected.G + selected.B)/3 < 170)
+            if ((selected.R + selected.G + selected.B) / 3 < 170)
+            {
                 skin.Renderer.DrawColor = Color.White;
+            }
             else
+            {
                 skin.Renderer.DrawColor = Color.Black;
+            }
 
             Rectangle testRect = new Rectangle(m_CursorPos.X - 3, m_CursorPos.Y - 3, 6, 6);
 

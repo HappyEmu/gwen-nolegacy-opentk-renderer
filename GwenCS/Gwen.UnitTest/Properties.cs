@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -40,7 +40,7 @@ namespace Gwen.UnitTest
                 {
                     Control.Properties props = ptree.Add("Item Two");
                     props.ValueChanged += OnChanged;
-                    
+
                     props.Add("More Items");
                     props.Add("Bacon", new Control.Property.Check(props), "1");
                     props.Add("To Fill");
@@ -52,7 +52,7 @@ namespace Gwen.UnitTest
             }
         }
 
-        void OnChanged(Base control, EventArgs args)
+        private void OnChanged(Base control, EventArgs args)
         {
             PropertyRow row = control as PropertyRow;
             UnitPrint(String.Format("Property changed: {0}", row.Value));

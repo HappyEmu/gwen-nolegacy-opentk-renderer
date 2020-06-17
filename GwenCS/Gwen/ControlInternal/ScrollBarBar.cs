@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen.ControlInternal
 {
@@ -13,12 +12,12 @@ namespace Gwen.ControlInternal
         /// <summary>
         /// Indicates whether the bar is horizontal.
         /// </summary>
-        public bool IsHorizontal { get { return m_Horizontal; } set { m_Horizontal = value; } }
+        public bool IsHorizontal { get => m_Horizontal; set => m_Horizontal = value; }
 
         /// <summary>
         /// Indicates whether the bar is vertical.
         /// </summary>
-        public bool IsVertical { get { return !m_Horizontal; } set { m_Horizontal = !value; } }
+        public bool IsVertical { get => !m_Horizontal; set => m_Horizontal = !value; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScrollBarBar"/> class.
@@ -52,7 +51,9 @@ namespace Gwen.ControlInternal
         {
             base.OnMouseMoved(x, y, dx, dy);
             if (!m_Held)
+            {
                 return;
+            }
 
             InvalidateParent();
         }
@@ -76,7 +77,9 @@ namespace Gwen.ControlInternal
         protected override void Layout(Skin.Base skin)
         {
             if (null == Parent)
+            {
                 return;
+            }
 
             //Move to our current position to force clamping - is this a hack?
             MoveTo(X, Y);

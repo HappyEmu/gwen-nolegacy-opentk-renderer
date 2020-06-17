@@ -14,10 +14,14 @@ namespace Gwen.Control
         /// </summary>
         public bool IsChecked
         {
-            get { return m_Checked; } 
+            get => m_Checked;
             set
             {
-                if (m_Checked == value) return;
+                if (m_Checked == value)
+                {
+                    return;
+                }
+
                 m_Checked = value;
                 OnCheckChanged();
             }
@@ -31,7 +35,7 @@ namespace Gwen.Control
             : base(parent)
         {
             SetSize(15, 15);
-			IsToggle = true;
+            IsToggle = true;
         }
 
         /// <summary>
@@ -61,7 +65,7 @@ namespace Gwen.Control
         /// <summary>
         /// Determines whether unchecking is allowed.
         /// </summary>
-        protected virtual bool AllowUncheck { get { return true; } }
+        protected virtual bool AllowUncheck => true;
 
         /// <summary>
         /// Handler for CheckChanged event.
@@ -69,18 +73,24 @@ namespace Gwen.Control
         protected virtual void OnCheckChanged()
         {
             if (IsChecked)
-            { 
+            {
                 if (Checked != null)
-					Checked.Invoke(this, EventArgs.Empty);
+                {
+                    Checked.Invoke(this, EventArgs.Empty);
+                }
             }
             else
             {
                 if (UnChecked != null)
-					UnChecked.Invoke(this, EventArgs.Empty);
+                {
+                    UnChecked.Invoke(this, EventArgs.Empty);
+                }
             }
 
             if (CheckChanged != null)
-				CheckChanged.Invoke(this, EventArgs.Empty);
+            {
+                CheckChanged.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -99,14 +109,16 @@ namespace Gwen.Control
         protected override void OnClicked(int x, int y)
         {
             if (IsDisabled)
+            {
                 return;
-            
+            }
+
             if (IsChecked && !AllowUncheck)
             {
                 return;
             }
 
-			base.OnClicked(x, y);
+            base.OnClicked(x, y);
         }
     }
 }

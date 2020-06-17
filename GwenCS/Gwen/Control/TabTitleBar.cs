@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.DragDrop;
+﻿using Gwen.DragDrop;
 
 namespace Gwen.Control
 {
@@ -10,7 +9,7 @@ namespace Gwen.Control
     {
         public TabTitleBar(Base parent) : base(parent)
         {
-			AutoSizeToContents = false;
+            AutoSizeToContents = false;
             MouseInputEnabled = true;
             TextPadding = new Padding(5, 2, 5, 2);
             Padding = new Padding(1, 2, 1, 2);

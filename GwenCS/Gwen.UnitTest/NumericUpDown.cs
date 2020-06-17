@@ -1,5 +1,5 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -16,7 +16,7 @@ namespace Gwen.UnitTest
             ctrl.ValueChanged += OnValueChanged;
         }
 
-		void OnValueChanged(Base control, EventArgs args)
+        private void OnValueChanged(Base control, EventArgs args)
         {
             UnitPrint(String.Format("NumericUpDown: ValueChanged: {0}", ((Control.NumericUpDown)control).Value));
         }

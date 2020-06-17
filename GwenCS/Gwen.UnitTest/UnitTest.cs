@@ -1,6 +1,6 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 using Gwen.Control.Layout;
+using System;
 
 namespace Gwen.UnitTest
 {
@@ -9,7 +9,7 @@ namespace Gwen.UnitTest
         private Control.Base m_LastControl;
         private readonly Control.StatusBar m_StatusBar;
         private readonly Control.ListBox m_TextOutput;
-        private Control.TabButton m_Button;
+        private readonly Control.TabButton m_Button;
         private readonly Control.CollapsibleList m_List;
         private readonly Center m_Center;
         private readonly Control.LabeledCheckBox m_DebugCheck;
@@ -30,16 +30,22 @@ namespace Gwen.UnitTest
             m_Button = BottomDock.TabControl.AddPage("Output", m_TextOutput);
             BottomDock.Height = 200;
 
-            m_DebugCheck = new Control.LabeledCheckBox(m_List);
-            m_DebugCheck.Text = "Debug outlines";
+            m_DebugCheck = new Control.LabeledCheckBox(m_List)
+            {
+                Text = "Debug outlines"
+            };
             m_DebugCheck.CheckChanged += DebugCheckChanged;
 
-            m_StatusBar = new Control.StatusBar(this);
-            m_StatusBar.Dock = Pos.Bottom;
+            m_StatusBar = new Control.StatusBar(this)
+            {
+                Dock = Pos.Bottom
+            };
             m_StatusBar.AddControl(m_DebugCheck, true);
 
-            m_Center = new Center(this);
-            m_Center.Dock = Pos.Fill;
+            m_Center = new Center(this)
+            {
+                Dock = Pos.Fill
+            };
             GUnit test;
 
             {
@@ -85,7 +91,7 @@ namespace Gwen.UnitTest
                     RegisterUnitTest("CrossSplitter", cat, test);
                 }
             }
-            
+
             {
                 CollapsibleCategory cat = m_List.Add("Containers");
                 {
@@ -103,7 +109,7 @@ namespace Gwen.UnitTest
                     RegisterUnitTest("Docking", cat, test);
                 }
             }
-            
+
             {
                 CollapsibleCategory cat = m_List.Add("Non-standard");
                 {
@@ -128,16 +134,21 @@ namespace Gwen.UnitTest
             btn.Clicked += OnCategorySelect;
         }
 
-		private void DebugCheckChanged(Base control, EventArgs args)
+        private void DebugCheckChanged(Base control, EventArgs args)
         {
             if (m_DebugCheck.IsChecked)
+            {
                 m_Center.DrawDebugOutlines = true;
+            }
             else
+            {
                 m_Center.DrawDebugOutlines = false;
+            }
+
             Invalidate();
         }
 
-		private void OnCategorySelect(Base control, EventArgs args)
+        private void OnCategorySelect(Base control, EventArgs args)
         {
             if (m_LastControl != null)
             {
@@ -151,7 +162,7 @@ namespace Gwen.UnitTest
         public void PrintText(string str)
         {
             m_TextOutput.AddRow(str);
-			m_TextOutput.ScrollToBottom();
+            m_TextOutput.ScrollToBottom();
         }
 
         protected override void Layout(Skin.Base skin)

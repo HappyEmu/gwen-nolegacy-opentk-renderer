@@ -1,5 +1,4 @@
-﻿using System;
-using Gwen.Control;
+﻿using Gwen.Control;
 
 namespace Gwen
 {
@@ -15,11 +14,14 @@ namespace Gwen
         public static void Center(Base control)
         {
             Base parent = control.Parent;
-            if (parent == null) 
+            if (parent == null)
+            {
                 return;
+            }
+
             control.SetPosition(
-                parent.Padding.Left + (((parent.Width - parent.Padding.Left - parent.Padding.Right) - control.Width)/2),
-                (parent.Height - control.Height)/2);
+                parent.Padding.Left + (((parent.Width - parent.Padding.Left - parent.Padding.Right) - control.Width) / 2),
+                (parent.Height - control.Height) / 2);
         }
 
         /// <summary>
@@ -29,7 +31,10 @@ namespace Gwen
         public static void AlignLeft(Base control)
         {
             Base parent = control.Parent;
-            if (null == parent) return;
+            if (null == parent)
+            {
+                return;
+            }
 
             control.SetPosition(parent.Padding.Left, control.Y);
         }
@@ -41,8 +46,10 @@ namespace Gwen
         public static void CenterHorizontally(Base control)
         {
             Base parent = control.Parent;
-            if (null == parent) return;
-
+            if (null == parent)
+            {
+                return;
+            }
 
             control.SetPosition(parent.Padding.Left + (((parent.Width - parent.Padding.Left - parent.Padding.Right) - control.Width) / 2), control.Y);
         }
@@ -54,8 +61,10 @@ namespace Gwen
         public static void AlignRight(Base control)
         {
             Base parent = control.Parent;
-            if (null == parent) return;
-
+            if (null == parent)
+            {
+                return;
+            }
 
             control.SetPosition(parent.Width - control.Width - parent.Padding.Right, control.Y);
         }
@@ -76,7 +85,10 @@ namespace Gwen
         public static void CenterVertically(Base control)
         {
             Base parent = control.Parent;
-            if (null == parent) return;
+            if (null == parent)
+            {
+                return;
+            }
 
             control.SetPosition(control.X, (parent.Height - control.Height) / 2);
         }
@@ -88,7 +100,10 @@ namespace Gwen
         public static void AlignBottom(Base control)
         {
             Base parent = control.Parent;
-            if (null == parent) return;
+            if (null == parent)
+            {
+                return;
+            }
 
             control.SetPosition(control.X, parent.Height - control.Height);
         }
