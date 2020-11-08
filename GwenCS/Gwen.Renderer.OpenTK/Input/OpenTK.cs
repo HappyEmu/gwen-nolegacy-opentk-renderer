@@ -1,6 +1,6 @@
 ﻿using Gwen.Control;
-using OpenToolkit.Windowing.Common;
-using OpenToolkit.Windowing.Common.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Gwen.Input
 {
@@ -35,36 +35,35 @@ namespace Gwen.Input
         /// </summary>
         /// <param name="key">OpenTK key code.</param>
         /// <returns>GWEN key code.</returns>
-        private Key TranslateKeyCode(OpenToolkit.Windowing.Common.Input.Key key)
+        private Key TranslateKeyCode(Keys key)
         {
             switch (key)
             {
-                case OpenToolkit.Windowing.Common.Input.Key.BackSpace: return Key.Backspace;
-                case OpenToolkit.Windowing.Common.Input.Key.Enter: return Key.Return;
-                case OpenToolkit.Windowing.Common.Input.Key.Escape: return Key.Escape;
-                case OpenToolkit.Windowing.Common.Input.Key.Tab: return Key.Tab;
-                case OpenToolkit.Windowing.Common.Input.Key.Space: return Key.Space;
-                case OpenToolkit.Windowing.Common.Input.Key.Up: return Key.Up;
-                case OpenToolkit.Windowing.Common.Input.Key.Down: return Key.Down;
-                case OpenToolkit.Windowing.Common.Input.Key.Left: return Key.Left;
-                case OpenToolkit.Windowing.Common.Input.Key.Right: return Key.Right;
-                case OpenToolkit.Windowing.Common.Input.Key.Home: return Key.Home;
-                case OpenToolkit.Windowing.Common.Input.Key.End: return Key.End;
-                case OpenToolkit.Windowing.Common.Input.Key.Delete: return Key.Delete;
-                case OpenToolkit.Windowing.Common.Input.Key.LControl:
+                case Keys.Backspace: return Key.Backspace;
+                case Keys.Enter: return Key.Return;
+                case Keys.Escape: return Key.Escape;
+                case Keys.Tab: return Key.Tab;
+                case Keys.Space: return Key.Space;
+                case Keys.Up: return Key.Up;
+                case Keys.Down: return Key.Down;
+                case Keys.Left: return Key.Left;
+                case Keys.Right: return Key.Right;
+                case Keys.Home: return Key.Home;
+                case Keys.End: return Key.End;
+                case Keys.Delete: return Key.Delete;
+                case Keys.LeftControl:
                     m_AltGr = true;
                     return Key.Control;
-                case OpenToolkit.Windowing.Common.Input.Key.LAlt: return Key.Alt;
-                case OpenToolkit.Windowing.Common.Input.Key.LShift: return Key.Shift;
-                case OpenToolkit.Windowing.Common.Input.Key.RControl: return Key.Control;
-                case OpenToolkit.Windowing.Common.Input.Key.RAlt:
+                case Keys.LeftAlt: return Key.Alt;
+                case Keys.LeftShift: return Key.Shift;
+                case Keys.RightControl: return Key.Control;
+                case Keys.RightAlt:
                     if (m_AltGr)
                     {
                         m_Canvas.Input_Key(Key.Control, false);
                     }
                     return Key.Alt;
-                case OpenToolkit.Windowing.Common.Input.Key.RShift: return Key.Shift;
-
+                case Keys.RightShift: return Key.Shift;
             }
             return Key.Invalid;
         }
@@ -74,11 +73,11 @@ namespace Gwen.Input
         /// </summary>
         /// <param name="key">OpenTK key code.</param>
         /// <returns>Translated character.</returns>
-        private static char TranslateChar(OpenToolkit.Windowing.Common.Input.Key key)
+        private static char TranslateChar(Keys key)
         {
-            if (key >= OpenToolkit.Windowing.Common.Input.Key.A && key <= OpenToolkit.Windowing.Common.Input.Key.Z)
+            if (key >= Keys.A && key <= Keys.Z)
             {
-                return (char)('a' + ((int)key - (int)OpenToolkit.Windowing.Common.Input.Key.A));
+                return (char)('a' + ((int)key - (int)Keys.A));
             }
 
             return ' ';

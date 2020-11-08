@@ -1,7 +1,7 @@
-using OpenToolkit.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Gwen.Renderer
 {

@@ -16,7 +16,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.0.0-pre9.1" />
+    <PackageReference Include="OpenTK" Version="4.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <ProjectReference Include="..\Gwen\Gwen.csproj" />
   </ItemGroup>

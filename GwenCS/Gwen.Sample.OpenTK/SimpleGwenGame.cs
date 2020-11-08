@@ -1,13 +1,14 @@
-﻿using Gwen.Control;
-using OpenToolkit.Graphics.ES20;
-using OpenToolkit.Mathematics;
-using OpenToolkit.Windowing.Common;
-using OpenToolkit.Windowing.Desktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using Gwen.Control;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Gwen.Sample.OpenTK
 {
@@ -36,15 +37,15 @@ namespace Gwen.Sample.OpenTK
 
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
         {
-            if (e.Key == OpenToolkit.Windowing.Common.Input.Key.Escape)
+            if (e.Key == Keys.Escape)
             {
                 Close();
             }
-            else if (e.Key == OpenToolkit.Windowing.Common.Input.Key.AltLeft)
+            else if (e.Key == Keys.LeftAlt)
             {
                 altDown = true;
             }
-            else if (altDown && e.Key == OpenToolkit.Windowing.Common.Input.Key.Enter)
+            else if (altDown && e.Key == Keys.Enter)
             {
                 if (WindowState == WindowState.Fullscreen)
                 {
@@ -127,7 +128,7 @@ namespace Gwen.Sample.OpenTK
 
         protected override void Dispose(bool disposing)
         {
-            canvas.Dispose();
+            //canvas.Dispose();
             skin.Dispose();
             renderer.Dispose();
 

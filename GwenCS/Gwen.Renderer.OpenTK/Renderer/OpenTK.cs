@@ -1,13 +1,12 @@
-﻿using OpenToolkit.Graphics.OpenGL4;
-using OpenToolkit.Windowing.Common;
-using OpenToolkit.Windowing.Common.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common.Input;
+using OpenTK.Windowing.Desktop;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace Gwen.Renderer
@@ -40,13 +39,13 @@ namespace Gwen.Renderer
         private int m_PrevBlendSrc, m_PrevBlendDst, m_PrevAlphaFunc;
         private float m_PrevAlphaRef;
         private bool m_RestoreRenderState;
-        private readonly INativeWindow _nativeWindow;
+        private readonly NativeWindow _nativeWindow;
         private StringFormat m_StringFormat;
 
         private int vbo, vao;
         private readonly GLShader guiShader;
 
-        public OpenTK(INativeWindow nativeWindow, bool restoreRenderState = true)
+        public OpenTK(NativeWindow nativeWindow, bool restoreRenderState = true)
             : base()
         {
             m_Vertices = new Vertex[MaxVerts];
@@ -545,7 +544,7 @@ namespace Gwen.Renderer
             switch (lock_format)
             {
                 case PixelFormat.Format32bppArgb:
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, OpenToolkit.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, global::OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                     break;
                 default:
                     // invalid
@@ -623,7 +622,7 @@ namespace Gwen.Renderer
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, OpenToolkit.Graphics.OpenGL4.PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, t.Width, t.Height, 0, global::OpenTK.Graphics.OpenGL4.PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
 
             bmp.UnlockBits(data);
             bmp.Dispose();
@@ -675,7 +674,7 @@ namespace Gwen.Renderer
             byte[] data = new byte[4 * texture.Width * texture.Height];
             fixed (byte* ptr = &data[0])
             {
-                GL.GetTexImage(TextureTarget.Texture2D, 0, OpenToolkit.Graphics.OpenGL4.PixelFormat.Rgba, PixelType.UnsignedByte, (IntPtr)ptr);
+                GL.GetTexImage(TextureTarget.Texture2D, 0, global::OpenTK.Graphics.OpenGL4.PixelFormat.Rgba, PixelType.UnsignedByte, (IntPtr)ptr);
                 pixel = Color.FromArgb(data[offset + 3], data[offset + 0], data[offset + 1], data[offset + 2]);
             }
 
